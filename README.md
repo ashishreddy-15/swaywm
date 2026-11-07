@@ -148,6 +148,12 @@ Modifier Key: **`$mod` = `Super` (Windows key)**
 
 The laptop panel uses `brightnessctl`; the external monitor uses `ddcutil` (DDC/CI). A dunst progress bar shows the new level.
 
+### Tools
+| Shortcut | Action |
+| :--- | :--- |
+| `$mod + n` | Toggle night light (`wlsunset`, constant 3500K tint) |
+| `Shift + Print` | Start/stop recording a selected area (`wf-recorder`, saved to `~/Videos/recordings`) |
+
 ### Session & System
 | Shortcut | Action |
 | :--- | :--- |
@@ -167,6 +173,7 @@ sudo dnf install -y \
     grim slurp grimshot \
     cliphist wl-clipboard libnotify \
     brightnessctl ddcutil xdg-desktop-portal-wlr \
+    wlsunset wf-recorder \
     jq btop starship power-profiles-daemon \
     neovim ripgrep fd-find \
     stow git
@@ -195,12 +202,15 @@ systemctl --user enable --now kanshi.service
 │       ├── config.d/                 # only files that override Fedora's defaults
 │       │   ├── 60-bindings-brightness.conf
 │       │   ├── 60-bindings-screenshot.conf
+│       │   ├── 60-bindings-tools.conf
 │       │   └── 90-swayidle.conf
 │       └── scripts/
 │           ├── brightness.sh
 │           ├── clipboard-menu.sh
 │           ├── lid-handler.sh
+│           ├── nightlight.sh
 │           ├── power-menu.sh
+│           ├── record.sh
 │           └── rofi-toggle.sh
 ├── kanshi/
 │   └── .config/kanshi/

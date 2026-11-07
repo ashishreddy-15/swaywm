@@ -7,7 +7,7 @@ A clean, modular, and fast Neovim configuration built with [lazy.nvim](https://g
 ## 🚀 Features
 
 - **Package Manager**: [lazy.nvim](https://github.com/folke/lazy.nvim) with lazy-loading on keys and events.
-- **Theme**: [base46](https://github.com/duxlabs-dev/base46) (`base46-onedark`).
+- **Theme**: custom monochrome `colors/mono.lua` (palette in the repo's `colors.md`).
 - **File Explorers**:
   - [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua) for full sidebar project tree navigation and directory hijacking.
   - [oil.nvim](https://github.com/stevearc/oil.nvim) for fast buffer-like floating directory edits.
