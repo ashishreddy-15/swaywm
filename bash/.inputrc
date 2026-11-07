@@ -1,0 +1,14 @@
+# Readline (bash and other readline programs)
+$include /etc/inputrc
+
+# Completion
+set completion-ignore-case on        # cd docu<Tab> -> Documents
+set completion-map-case on           # treat - and _ as the same
+set show-all-if-ambiguous on         # list matches on the first Tab
+set mark-symlinked-directories on
+set colored-stats on
+set colored-completion-prefix on
+
+# Up/Down search history for lines starting with what you've typed
+"\e[A": history-search-backward
+"\e[B": history-search-forward

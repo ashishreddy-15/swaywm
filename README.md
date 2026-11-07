@@ -72,6 +72,7 @@ Each component is modularized as an independent GNU Stow package:
 
 | Package | Target Location | Description |
 | :--- | :--- | :--- |
+| **`bash`** | `~/.bashrc`, `~/.bashrc.d/`, `~/.inputrc` | Shell: history, aliases, fzf (`Ctrl+R`/`Ctrl+T`/`Alt+C`), zoxide (`z`/`j`), starship, readline completion. |
 | **`sway`** | `~/.config/sway` | Core window manager config, keybindings, drop-in configs (`config.d/`), and utility scripts (`scripts/`). |
 | **`kanshi`** | `~/.config/kanshi` | Display auto-detection daemon and dual/solo monitor profiles. |
 | **`waybar`** | `~/.config/waybar` | Status bar with workspace indicators, hardware monitors, and power profile switcher. |
@@ -99,9 +100,11 @@ The repo's [`.stowrc`](.stowrc) sets the defaults, so plain `stow` commands work
 * `--no-folding`: every file gets its own symlink and directories like `~/.config/sway` stay real. Logs and caches that apps write into their config dir (e.g. `btop.log`) stay out of the repo, and new files you add to the repo only appear after a restow.
 * `--ignore=\.bak...`: `*.bak` backups are never linked.
 
+`setup/` is not a stow package (system-level scripts), so link packages by name, or let `./install.sh --no-packages` link all of them:
+
 ```bash
 cd ~/swaywm
-stow -v */            # stow every package
+stow -v bash sway     # stow packages by name
 stow -v sway          # stow one package
 stow -R -v sway       # restow after adding/removing files in a package
 stow -D -v sway       # remove a package's symlinks
@@ -192,37 +195,45 @@ A battery watcher warns at 15% and again (critical) at 5% while discharging.
 
 ---
 
-## 🛠️ Required Dependencies
+## 🛠️ Installation (fresh Fedora)
 
-On **Fedora / RHEL**:
 ```bash
-sudo dnf install -y \
-    sway swayidle swaylock \
-    waybar kanshi rofi-wayland dunst foot \
-    grim slurp grimshot \
-    cliphist wl-clipboard libnotify \
-    brightnessctl ddcutil xdg-desktop-portal-wlr \
-    wlsunset wf-recorder \
-    mpv yt-dlp loupe zathura zathura-pdf-mupdf \
-    qalculate rofimoji wtype \
-    jq btop starship power-profiles-daemon \
-    neovim ripgrep fd-find \
-    stow git
+git clone git@github.com:ashishreddy-15/swaywm.git ~/swaywm
+cd ~/swaywm
+./install.sh --dry-run          # see what it would do
+./install.sh                    # do it
+./install.sh --with-snapshots   # ...and set up btrfs snapshots (sudo)
 ```
 
-### Default Applications
-Not stowed (apps rewrite `~/.config/mimeapps.list`), so set them once:
+[`install.sh`](install.sh) is safe to re-run; each step checks first:
+
+1. **Packages**: installs whatever is missing from its list with `sudo dnf` (`--no-packages` skips this). Hardware video decoding in mpv also needs `intel-media-driver` from RPM Fusion.
+2. **starship**: official installer, if not present (it is not in Fedora's repos).
+3. **Font**: Maple Mono NF into `~/.local/share/fonts`, if not present.
+4. **Dotfiles**: stows every package. Real files that would block a symlink are moved to `~/.dotfiles-backup-<date>/`, never deleted.
+5. **Desktop settings**: GTK dark theme and subpixel font smoothing (`gsettings`).
+6. **Default apps**: images → Loupe, video/audio → mpv, PDF → zathura (`xdg-mime`; not stowed, because apps rewrite `mimeapps.list`).
+7. **Services & folders**: enables `kanshi.service`; creates `~/Pictures/mpv` and `~/Videos/recordings`.
+
+---
+
+## 📸 Snapshots (btrfs + snapper)
+
+[`setup/snapshots.sh`](setup/snapshots.sh) (run with `--with-snapshots`, or on its own) sets up:
+
+* **`/` (root)**: a pre/post snapshot pair around every `dnf` transaction, via the dnf5 actions plugin ([`setup/snapper.actions`](setup/snapper.actions), taken from `libdnf5-actions(8)`). Keeps the last 20.
+* **`/home`**: hourly snapshots; keeps 12 hourly, 7 daily, 4 weekly.
+
 ```bash
-xdg-mime default org.gnome.Loupe.desktop image/jpeg image/png image/webp image/gif   # see Loupe's .desktop for the full list
-xdg-mime default mpv.desktop video/mp4 video/x-matroska video/webm audio/flac audio/mpeg
-xdg-mime default org.pwmt.zathura-pdf-mupdf.desktop application/pdf
+snapper -c root list                       # what dnf changed, as numbered pairs
+snapper -c root status 41..42              # files changed by one update
+sudo snapper -c root undochange 41..42     # revert that update's file changes
+snapper -c home list
+cp /home/.snapshots/<N>/snapshot/ashish/<file> ~/   # recover a deleted/overwritten file
 ```
 
-### Kanshi User Service
-Ensure the `kanshi` systemd service is active so hotplug display events run automatically:
-```bash
-systemctl --user enable --now kanshi.service
-```
+`/boot` is a separate ext4 partition, so roll back updates with `undochange` (file level), not by booting a snapshot.
+Snapshots live on the same disk: they undo mistakes, they are **not** a backup against disk failure or a lost laptop.
 
 ---
 
@@ -234,6 +245,15 @@ systemctl --user enable --now kanshi.service
 ├── .gitignore
 ├── .stowrc
 ├── colors.md                 # shared palette (hex copied into each config)
+├── install.sh                # bootstrap a fresh Fedora install
+├── setup/                    # system-level, not stowed
+│   ├── snapshots.sh
+│   └── snapper.actions
+├── bash/
+│   ├── .bashrc
+│   ├── .bash_profile
+│   ├── .inputrc
+│   └── .bashrc.d/            # 01-env 02-aliases 03-fzf 04-zoxide 05-starship 06-functions
 ├── sway/
 │   └── .config/sway/
 │       ├── config
