@@ -23,6 +23,7 @@ text-clear-color=e6e6e6
 text-ver-color=e6e6e6
 text-wrong-color=e05555
 separator-color=00000000
+indicator-thickness=4
 
 # Show indicator on blank screen too (not only on keypress)
 show-failed-attempts
