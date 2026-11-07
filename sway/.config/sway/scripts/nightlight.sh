@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Toggle a constant warm screen tint (wlsunset). Bound to $mod+n.
 # -t/-T are 1K apart so the tint is the same all day, no sunrise/sunset schedule.
-TEMP=3500
+TEMP=4500
 
 notify() {
     notify-send -a nightlight -u low -t 1500 \
