@@ -63,6 +63,13 @@ bindswitch --reload --locked lid:on  exec ~/.config/sway/scripts/lid-handler.sh 
 bindswitch --reload --locked lid:off exec ~/.config/sway/scripts/lid-handler.sh open
 
 # ── Input ───────────────────────────────────────────────────
+# Faster key repeat; Caps Lock acts as Escape
+input "type:keyboard" {
+    repeat_delay 250
+    repeat_rate 40
+    xkb_options caps:escape
+}
+
 # Synaptics touchpad (ThinkPad)
 input "type:touchpad" {
     dwt enabled
@@ -74,6 +81,9 @@ input "type:touchpad" {
 
 # ── Clipboard history daemon ─────────────────────────────────
 # Entries copied from password managers (marked sensitive) are not stored.
+# Low-battery warnings (15% and 5%)
+exec ~/.config/sway/scripts/battery-notify.sh
+
 exec wl-paste --watch cliphist -max-items 200 store
 exec wl-paste --type image --watch cliphist -max-items 200 store
 
@@ -89,6 +99,9 @@ bindsym $mod+Shift+Escape exec loginctl lock-session
 
 # Drag/resize floating windows with $mod + mouse buttons
 floating_modifier $mod normal
+
+# Pressing the current workspace's key again returns to the previous one
+workspace_auto_back_and_forth yes
 
 # ── Key bindings: Focus ──────────────────────────────────────
 bindsym $mod+$left   focus left

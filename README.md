@@ -20,6 +20,13 @@ Monochrome greys plus one blue-grey accent (`#7aa2c8`) used for focus only. See 
 
 ---
 
+## ⌨️ Keyboard
+
+* Key repeat: 250 ms delay, 40/s.
+* Caps Lock acts as Escape.
+
+---
+
 ## 🖥️ Display & Workspace Architecture
 
 ### Physical Layout
@@ -76,6 +83,8 @@ Each component is modularized as an independent GNU Stow package:
 | **`btop`** | `~/.config/btop` | Terminal system resource monitor. |
 | **`fontconfig`** | `~/.config/fontconfig` | Font configuration directing to `~/.local/share/fonts`. |
 | **`xdg-desktop-portal-wlr`** | `~/.config/xdg-desktop-portal-wlr` | Screen sharing asks which monitor to share (click it with `slurp`). |
+| **`mpv`** | `~/.config/mpv` | Video player: VAAPI hardware decoding, Vulkan `gpu-next`, smooth motion on the 100 Hz monitor, monochrome OSD. |
+| **`zathura`** | `~/.config/zathura` | Keyboard-driven PDF viewer in the same palette (`Ctrl+r` for dark pages). |
 | **`nvim`** | `~/.config/nvim` | Neovim IDE configuration (lazy.nvim, Treesitter, LSP, Telescope, Oil, and completion). |
 
 ---
@@ -122,7 +131,7 @@ Modifier Key: **`$mod` = `Super` (Windows key)**
 | `$mod + Left` / `Down` / `Up` / `Right` | Focus left / down / up / right |
 | `$mod + Tab` | Focus the other monitor |
 | `$mod + Shift + Tab` | Move the current workspace to the other monitor |
-| `$mod + 1` .. `$mod + 0` | Switch to workspace 1 - 10 |
+| `$mod + 1` .. `$mod + 0` | Switch to workspace 1 - 10 (press the current one again to go back) |
 | `$mod + Shift + 1` .. `0` | Move focused window to workspace 1 - 10 |
 
 ### Layout & Window Management
@@ -161,6 +170,18 @@ The laptop panel uses `brightnessctl`; the external monitor uses `ddcutil` (DDC/
 | :--- | :--- |
 | `$mod + n` | Toggle night light (`wlsunset`, constant 3500K tint) |
 | `Shift + Print` | Start/stop recording a selected area (`wf-recorder`, saved to `~/Videos/recordings`) |
+| `$mod + Shift + Return` | Toggle the floating drop-down terminal (kept in the scratchpad) |
+| `$mod + c` | Calculator (`qalc` in rofi; select the result + Enter to copy it) |
+| `$mod + .` | Emoji picker (`rofimoji`, types the emoji into the focused window) |
+
+### Notifications
+| Shortcut | Action |
+| :--- | :--- |
+| `$mod + grave` (key left of `1`) | Bring back the last notification |
+| `$mod + Shift + grave` | Dismiss all notifications |
+| `$mod + Shift + n` | Toggle do-not-disturb (notifications queue up and show when turned off) |
+
+A battery watcher warns at 15% and again (critical) at 5% while discharging.
 
 ### Session & System
 | Shortcut | Action |
@@ -182,9 +203,19 @@ sudo dnf install -y \
     cliphist wl-clipboard libnotify \
     brightnessctl ddcutil xdg-desktop-portal-wlr \
     wlsunset wf-recorder \
+    mpv yt-dlp loupe zathura zathura-pdf-mupdf \
+    qalculate rofimoji wtype \
     jq btop starship power-profiles-daemon \
     neovim ripgrep fd-find \
     stow git
+```
+
+### Default Applications
+Not stowed (apps rewrite `~/.config/mimeapps.list`), so set them once:
+```bash
+xdg-mime default org.gnome.Loupe.desktop image/jpeg image/png image/webp image/gif   # see Loupe's .desktop for the full list
+xdg-mime default mpv.desktop video/mp4 video/x-matroska video/webm audio/flac audio/mpeg
+xdg-mime default org.pwmt.zathura-pdf-mupdf.desktop application/pdf
 ```
 
 ### Kanshi User Service
@@ -214,8 +245,12 @@ systemctl --user enable --now kanshi.service
 │       │   ├── 60-bindings-tools.conf
 │       │   └── 90-swayidle.conf
 │       └── scripts/
+│           ├── battery-notify.sh
 │           ├── brightness.sh
+│           ├── calc.sh
 │           ├── clipboard-menu.sh
+│           ├── dnd.sh
+│           ├── dropdown.sh
 │           ├── lid-handler.sh
 │           ├── nightlight.sh
 │           ├── power-menu.sh
@@ -254,6 +289,14 @@ systemctl --user enable --now kanshi.service
 ├── xdg-desktop-portal-wlr/
 │   └── .config/xdg-desktop-portal-wlr/
 │       └── config
+├── mpv/
+│   └── .config/mpv/
+│       ├── mpv.conf
+│       ├── input.conf
+│       └── script-opts/osc.conf
+├── zathura/
+│   └── .config/zathura/
+│       └── zathurarc
 └── nvim/
     └── .config/nvim/
         ├── init.lua

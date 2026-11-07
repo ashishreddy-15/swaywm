@@ -21,8 +21,9 @@ fill is `bg`.
 
 ## Where it is applied
 sway (`client.*`, wallpaper) · waybar (`@define-color`) · dunst · rofi (variables
-in `config.rasi`) · foot (`[colors]`) · swaylock · starship · btop
-(`themes/mono.theme`) · nvim (`colors/mono.lua`).
+in `config.rasi`) · foot (`[colors-dark]`) · swaylock · starship · btop
+(`themes/mono.theme`) · nvim (`colors/mono.lua`) · mpv (OSD, subtitles,
+`script-opts/osc.conf`) · zathura (`zathurarc`).
 
 Not tracked by stow: `gsettings set org.gnome.desktop.interface color-scheme prefer-dark`
 and `gtk-theme Adwaita-dark` for GTK apps.
