@@ -12,6 +12,14 @@ Monochrome greys plus one blue-grey accent (`#7aa2c8`) used for focus only. See 
 
 ---
 
+## 🪟 Window Look & Rules
+
+* Flat windows: 2px borders, no titlebars, no gaps; borders are hidden when a workspace has a single window (`smart_borders`).
+* Anything fullscreen blocks idle lock/blank (`50-rules-windows.conf`).
+* Dialogs, pop-ups, file pickers and the Bluetooth/network manager windows float instead of tiling.
+
+---
+
 ## 🖥️ Display & Workspace Architecture
 
 ### Physical Layout
@@ -200,6 +208,7 @@ systemctl --user enable --now kanshi.service
 │       ├── config
 │       ├── environment
 │       ├── config.d/                 # only files that override Fedora's defaults
+│       │   ├── 50-rules-windows.conf
 │       │   ├── 60-bindings-brightness.conf
 │       │   ├── 60-bindings-screenshot.conf
 │       │   ├── 60-bindings-tools.conf

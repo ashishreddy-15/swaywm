@@ -50,6 +50,12 @@ client.urgent           #e05555  #111111    #e6e6e6  #e05555   #e05555
 client.placeholder      #333333  #000000    #888888  #333333   #333333
 client.background       #000000
 
+# ── Window look: flat, no titlebars, no gaps ────────────────
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders --i3 smart
+smart_borders on
+
 # ── Clamshell Mode (Laptop Lid Switch) ──────────────────────
 # --reload re-runs the binding on `reload`, so the panel stays off if the
 # lid is closed. kanshi also runs lid-handler.sh after every hotplug.
