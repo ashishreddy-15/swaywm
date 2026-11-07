@@ -32,6 +32,7 @@ window#waybar {
 tooltip {
     background: @surface;
     border: 1px solid @border;
+    border-radius: 4px;
     padding: 4px;
 }
 
@@ -124,9 +125,9 @@ tooltip label {
     min-width: 0;
 }
 
-/* Idle Inhibitor */
+/* Idle Inhibitor: dim while off, accent while on */
 #idle_inhibitor {
-    color: @muted;
+    color: @dim;
 }
 
 #idle_inhibitor.activated {
@@ -139,14 +140,9 @@ tooltip label {
     color: @muted;
 }
 
-/* Battery States */
+/* Battery States ([CHR]/[AC] already say it; accent is focus-only) */
 #battery {
-    padding-right: 2px;
-}
-
-#battery.charging,
-#battery.plugged {
-    color: @accent;
+    padding-right: 4px;
 }
 
 #battery.warning:not(.charging) {
@@ -160,7 +156,7 @@ tooltip label {
 
 /* Power Profile Daemon */
 #power-profiles-daemon {
-    padding-left: 2px;
+    padding-left: 4px;
     padding-right: 4px;
     margin: 0;
     min-width: 0;
@@ -216,11 +212,11 @@ window#waybar.laptop #clock {
 
 window#waybar.laptop #battery {
     padding-left: 5px;
-    padding-right: 2px;
+    padding-right: 5px;
 }
 
 window#waybar.laptop #power-profiles-daemon {
-    padding-left: 2px;
+    padding-left: 5px;
     padding-right: 5px;
 }
 
