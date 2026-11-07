@@ -141,6 +141,15 @@
     icon_position = off
     history_ignore = yes
 
+# Volume popups come from Fedora's /usr/libexec/sway/volume-helper, which
+# sends no icon (dunst would otherwise fall back to default_icon).
+[osd_volume]
+    appname = sway
+    stack_tag = volume
+    format = "<b>%s</b>"
+    icon_position = off
+    history_ignore = yes
+
 [osd_calc]
     appname = calc
     format = "<b>%s</b>  <span foreground='#888888'>%b</span>"
