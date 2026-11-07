@@ -13,6 +13,6 @@ while :; do
         notify-send -a calc -u low -t 1500 "Copied" "$res"
         exit 0
     fi
-    res=$(qalc -t -- "$q" 2>/dev/null | tail -n1)
+    res=$(qalc -t -s "autoconversion none" -- "$q" 2>/dev/null | tail -n1)
     msg="$q = $res"
 done
