@@ -23,61 +23,104 @@ configuration {
     display-combi:              "Search";
 }
 
+/* ── Palette (colors.md) ─────────────────────────────────── */
 * {
     bg:      #000000;
     surface: #111111;
+    raised:  #222222;
     border:  #333333;
     muted:   #888888;
     fg:      #e6e6e6;
     accent:  #7aa2c8;
+    red:     #e05555;
+
     background-color: transparent;
     text-color:       @fg;
 }
 
+/* ── Window: a raised popup, same as dunst ───────────────── */
 window {
-    background-color: @bg;
+    width:            640px;
+    padding:          0px;
+    background-color: @surface;
     border:           1px solid;
     border-color:     @border;
+    border-radius:    4px;
 }
 
-inputbar    { background-color: @surface; children: [prompt, entry]; spacing: 8px; }
-prompt      { text-color: @accent; }
-entry       { placeholder: ""; text-color: @fg; }
-listview    { background-color: @bg; }
-element selected.normal,
-element selected.active,
-element selected.urgent { background-color: @surface; text-color: @accent; }
-element alternate.normal,
-element normal.normal   { background-color: transparent; text-color: @fg; }
-element normal.active   { text-color: @accent; }
-element normal.urgent   { text-color: #e05555; }
-message     { background-color: @surface; text-color: @muted; }
-
-/* ── Sleek Wide Rectangle Dimensions ────────────────────────── */
-window {
-    width:                      640px;
-    padding:                    6px;
+mainbox {
+    padding:  0px;
+    spacing:  0px;
+    children: [inputbar, message, listview];
 }
 
+/* ── Input: prompt + entry, solid hairline below ─────────── */
 inputbar {
-    padding:                    4px 8px;
+    padding:      10px 14px;
+    spacing:      10px;
+    border:       0px 0px 1px 0px;
+    border-color: @border;
+    children:     [prompt, entry];
 }
 
+prompt {
+    text-color: @accent;
+}
+
+entry {
+    placeholder:  "";
+    text-color:   @fg;
+    cursor-color: @accent;
+}
+
+message {
+    padding:      8px 14px;
+    border:       0px 0px 1px 0px;
+    border-color: @border;
+}
+
+textbox {
+    text-color: @muted;
+}
+
+/* ── List ────────────────────────────────────────────────── */
 listview {
-    lines:                      10;
-    fixed-height:               false;
-    dynamic:                    true;
-    padding:                    4px 0px 0px 0px;
-    spacing:                    1px;
-    scrollbar:                  false;
+    lines:        10;
+    fixed-height: false;
+    dynamic:      true;
+    scrollbar:    false;
+    border:       0px;
+    padding:      6px;
+    spacing:      2px;
 }
 
 element {
-    padding:                    3px 8px;
+    padding:       6px 10px;
+    border:        0px 0px 0px 2px;
+    border-color:  transparent;
+    border-radius: 3px;
+}
+
+element normal.normal,
+element alternate.normal { background-color: transparent; text-color: @fg; }
+element normal.active,
+element alternate.active { background-color: transparent; text-color: @accent; }
+element normal.urgent,
+element alternate.urgent { background-color: transparent; text-color: @red; }
+
+/* Selected row: raised fill, accent edge and text */
+element selected.normal,
+element selected.active,
+element selected.urgent {
+    background-color: @raised;
+    border-color:     @accent;
+    text-color:       @accent;
 }
 
 element-text {
-    vertical-align:             0.5;
-    background-color:           inherit;
-    text-color:                 inherit;
+    vertical-align:   0.5;
+    background-color: inherit;
+    text-color:       inherit;
+    /* Characters matching the query */
+    highlight:        bold #7aa2c8;
 }

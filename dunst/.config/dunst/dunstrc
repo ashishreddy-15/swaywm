@@ -37,22 +37,20 @@
     frame_width = 2
     # Default border frame color (border grey; accent is for focus only)
     frame_color = "#333333"
-    # Gap between notifications (requires compositor)
+    # Gap between notifications; each one is drawn as its own box,
+    # so no separator settings are needed
     gap_size = 6
-    # Separator height between stacked notifications
-    separator_height = 2
-    separator_color = frame
-    # Corner radius (0 for sharp edges matching i3/Sway default)
+    # Slightly rounded corners
     corner_radius = 4
     corners = all
 
     ### Progress Bar ###
     progress_bar = true
-    progress_bar_height = 8
+    progress_bar_height = 6
     progress_bar_frame_width = 1
     progress_bar_min_width = 150
     progress_bar_max_width = 300
-    progress_bar_corner_radius = 2
+    progress_bar_corner_radius = 3
 
     ### Typography ###
     # Font matches the system monospace font
@@ -106,7 +104,8 @@
     # Palette: see colors.md
     background = "#111111"
     foreground = "#e6e6e6"
-    frame_color = "#7aa2c8"
+    # Plain border; accent is reserved for focus (see colors.md)
+    frame_color = "#333333"
     highlight = "#7aa2c8"
     timeout = 8
     default_icon = dialog-information
@@ -119,3 +118,40 @@
     highlight = "#e05555"
     timeout = 0
     default_icon = dialog-warning
+
+# ── Compact status popups ───────────────────────────────────
+# Short-lived status messages from sway/scripts (brightness, DND,
+# nightlight, calc): one line, no icon, kept out of history.
+
+[osd_brightness]
+    appname = brightness
+    format = "<b>%s</b>  <span foreground='#888888'>%b</span>"
+    icon_position = off
+    history_ignore = yes
+
+[osd_dnd]
+    appname = dnd
+    format = "<b>%s</b>  <span foreground='#888888'>%b</span>"
+    icon_position = off
+    history_ignore = yes
+
+[osd_nightlight]
+    appname = nightlight
+    format = "<b>%s</b>  <span foreground='#888888'>%b</span>"
+    icon_position = off
+    history_ignore = yes
+
+# Volume popups come from Fedora's /usr/libexec/sway/volume-helper, which
+# sends no icon (dunst would otherwise fall back to default_icon).
+[osd_volume]
+    appname = sway
+    stack_tag = volume
+    format = "<b>%s</b>"
+    icon_position = off
+    history_ignore = yes
+
+[osd_calc]
+    appname = calc
+    format = "<b>%s</b>  <span foreground='#888888'>%b</span>"
+    icon_position = off
+    history_ignore = yes
