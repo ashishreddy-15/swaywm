@@ -42,19 +42,35 @@ output $samsung resolution 2560x1440@100Hz  position 1920,0 subpixel rgb
 output * bg #000000 solid_color
 
 # ── Window colors (palette: see colors.md) ──────────────────
+# The split indicator (where the next window opens) is fg, so it is
+# distinct from the accent focus border.
 #                       border   background text     indicator child_border
-client.focused          #7aa2c8  #111111    #e6e6e6  #7aa2c8   #7aa2c8
+client.focused          #7aa2c8  #111111    #e6e6e6  #e6e6e6   #7aa2c8
 client.focused_inactive #333333  #111111    #888888  #333333   #333333
 client.unfocused        #333333  #000000    #888888  #333333   #333333
 client.urgent           #e05555  #111111    #e6e6e6  #e05555   #e05555
 client.placeholder      #333333  #000000    #888888  #333333   #333333
 client.background       #000000
 
-# ── Window look: flat, no titlebars, no gaps ────────────────
+# ── Window look: flat, no titlebars, small gaps ─────────────
 default_border pixel 2
 default_floating_border pixel 2
-hide_edge_borders --i3 smart
+
+# Small gaps between windows; a lone window fills the screen with no
+# gap or border (smart_gaps + smart_borders)
+gaps inner 4
+smart_gaps on
 smart_borders on
+
+# Title bars (only shown in tabbed/stacked layouts): roomier, centred,
+# with a 1px edge that lines up with window borders
+titlebar_padding 8 3
+titlebar_border_thickness 1
+title_align center
+
+# Cursor: same theme and size as GTK apps (gsettings), so the pointer
+# does not change between sway, Wayland and Xwayland windows
+seat seat0 xcursor_theme Adwaita 24
 
 # ── Clamshell Mode (Laptop Lid Switch) ──────────────────────
 # --reload re-runs the binding on `reload`, so the panel stays off if the
@@ -79,11 +95,12 @@ input "type:touchpad" {
     scroll_method two_finger
 }
 
-# ── Clipboard history daemon ─────────────────────────────────
-# Entries copied from password managers (marked sensitive) are not stored.
+# ── Autostart ────────────────────────────────────────────────
 # Low-battery warnings (15% and 5%)
 exec ~/.config/sway/scripts/battery-notify.sh
 
+# Clipboard history daemon. Entries copied from password managers
+# (marked sensitive) are not stored.
 exec wl-paste --watch cliphist -max-items 200 store
 exec wl-paste --type image --watch cliphist -max-items 200 store
 
