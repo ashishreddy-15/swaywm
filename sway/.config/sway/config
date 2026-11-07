@@ -100,8 +100,8 @@ bindsym $mod+Shift+Escape exec loginctl lock-session
 # Drag/resize floating windows with $mod + mouse buttons
 floating_modifier $mod normal
 
-# Pressing the current workspace's key again returns to the previous one
-workspace_auto_back_and_forth yes
+# Pressing the current workspace's key again does nothing (no back-and-forth)
+workspace_auto_back_and_forth no
 
 # ── Key bindings: Focus ──────────────────────────────────────
 bindsym $mod+$left   focus left
