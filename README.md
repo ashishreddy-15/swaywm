@@ -51,6 +51,7 @@ Each component is modularized as an independent GNU Stow package:
 | **`starship`** | `~/.config/starship.toml` | Fast, informative two-line shell prompt (Catppuccin Mocha theme). |
 | **`btop`** | `~/.config/btop` | Terminal system resource monitor. |
 | **`fontconfig`** | `~/.config/fontconfig` | Font configuration directing to `~/.local/share/fonts`. |
+| **`nvim`** | `~/.config/nvim` | Neovim IDE configuration (lazy.nvim, Treesitter, LSP, Telescope, Oil, and completion). |
 
 ---
 
@@ -69,7 +70,7 @@ stow -v -t ~ */
 *(Or specify package names explicitly)*:
 ```bash
 cd ~/swaywm
-stow -v -t ~ sway kanshi waybar rofi dunst foot swaylock starship btop fontconfig
+stow -v -t ~ sway kanshi waybar rofi dunst foot swaylock starship btop fontconfig nvim
 ```
 
 ### Stow an Individual Package
@@ -165,6 +166,7 @@ sudo dnf install -y \
     grim slurp grimshot \
     cliphist wl-clipboard \
     jq btop starship power-profiles-daemon \
+    neovim ripgrep fd-find \
     stow git
 ```
 
@@ -224,7 +226,13 @@ systemctl --user enable --now kanshi.service
 ├── btop/
 │   └── .config/btop/
 │       └── btop.conf
-└── fontconfig/
-    └── .config/fontconfig/
-        └── fonts.conf
+├── fontconfig/
+│   └── .config/fontconfig/
+│       └── fonts.conf
+└── nvim/
+    └── .config/nvim/
+        ├── init.lua
+        ├── lazy-lock.json
+        ├── colors/
+        └── lua/
 ```
