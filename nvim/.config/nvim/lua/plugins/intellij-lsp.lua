@@ -8,8 +8,8 @@ return {
     -- Use your active SDKMAN Java (Java 25) for projects without an explicit SDK
     default_sdk = vim.fn.expand("$HOME/.sdkman/candidates/java/current"),
 
-    -- Apply bundled islands-dark colorscheme
-    colorscheme = true,
+    -- Keep our own colorscheme (colors/mono.lua)
+    colorscheme = false,
 
     -- Format on every save using IntelliJ's code style engine
     format_on_save = true,

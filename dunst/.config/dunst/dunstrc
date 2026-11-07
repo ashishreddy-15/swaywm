@@ -35,8 +35,8 @@
     text_icon_padding = 10
     # Border width around notifications
     frame_width = 2
-    # Default border frame color (matches Sway / Waybar focused accent)
-    frame_color = "#4c7899"
+    # Default border frame color (border grey; accent is for focus only)
+    frame_color = "#333333"
     # Gap between notifications (requires compositor)
     gap_size = 6
     # Separator height between stacked notifications
@@ -94,25 +94,28 @@
 # ── Urgency Levels ──────────────────────────────────────────
 
 [urgency_low]
-    # Default foot terminal dark grey background
-    background = "#242424"
+    # Palette: see colors.md
+    background = "#111111"
     foreground = "#888888"
-    frame_color = "#444444"
+    frame_color = "#333333"
+    highlight = "#7aa2c8"
     timeout = 5
     default_icon = dialog-information
 
 [urgency_normal]
-    # Default foot terminal dark grey background
-    background = "#242424"
-    foreground = "#ffffff"
-    frame_color = "#4c7899"
+    # Palette: see colors.md
+    background = "#111111"
+    foreground = "#e6e6e6"
+    frame_color = "#7aa2c8"
+    highlight = "#7aa2c8"
     timeout = 8
     default_icon = dialog-information
 
 [urgency_critical]
-    # Default foot terminal dark grey background with foot red accent frame
-    background = "#242424"
-    foreground = "#ffffff"
-    frame_color = "#f62b5a"
+    # Red frame for critical
+    background = "#111111"
+    foreground = "#e6e6e6"
+    frame_color = "#e05555"
+    highlight = "#e05555"
     timeout = 0
     default_icon = dialog-warning

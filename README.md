@@ -6,6 +6,12 @@ Configured specifically for a **dual-monitor productivity workflow** (Laptop + 2
 
 ---
 
+## 🎨 Color Scheme
+
+Monochrome greys plus one blue-grey accent (`#7aa2c8`) used for focus only. See [`colors.md`](colors.md) for the palette and where it is applied.
+
+---
+
 ## 🖥️ Display & Workspace Architecture
 
 ### Physical Layout
@@ -54,11 +60,11 @@ Each component is modularized as an independent GNU Stow package:
 | **`sway`** | `~/.config/sway` | Core window manager config, keybindings, drop-in configs (`config.d/`), and utility scripts (`scripts/`). |
 | **`kanshi`** | `~/.config/kanshi` | Display auto-detection daemon and dual/solo monitor profiles. |
 | **`waybar`** | `~/.config/waybar` | Status bar with workspace indicators, hardware monitors, and power profile switcher. |
-| **`rofi`** | `~/.config/rofi` | Application launcher, power menu, and clipboard menu (`Arc-Dark` theme). |
+| **`rofi`** | `~/.config/rofi` | Application launcher, power menu, and clipboard menu (minimal monochrome theme). |
 | **`dunst`** | `~/.config/dunst` | Notification daemon configured with mouse-follow across dual monitors. |
 | **`foot`** | `~/.config/foot` | Ultra-fast Wayland-native terminal emulator configured with Maple Mono NF. |
 | **`swaylock`** | `~/.config/swaylock` | Minimal black screen locker integrated with `swayidle`. |
-| **`starship`** | `~/.config/starship.toml` | Fast, informative two-line shell prompt (Catppuccin Mocha theme). |
+| **`starship`** | `~/.config/starship.toml` | Fast, informative two-line shell prompt (monochrome + accent). |
 | **`btop`** | `~/.config/btop` | Terminal system resource monitor. |
 | **`fontconfig`** | `~/.config/fontconfig` | Font configuration directing to `~/.local/share/fonts`. |
 | **`xdg-desktop-portal-wlr`** | `~/.config/xdg-desktop-portal-wlr` | Screen sharing asks which monitor to share (click it with `slurp`). |
@@ -181,6 +187,7 @@ systemctl --user enable --now kanshi.service
 ├── README.md
 ├── .gitignore
 ├── .stowrc
+├── colors.md                 # shared palette (hex copied into each config)
 ├── sway/
 │   └── .config/sway/
 │       ├── config
@@ -220,7 +227,8 @@ systemctl --user enable --now kanshi.service
 │       └── starship.toml
 ├── btop/
 │   └── .config/btop/
-│       └── btop.conf
+│       ├── btop.conf
+│       └── themes/mono.theme
 ├── fontconfig/
 │   └── .config/fontconfig/
 │       └── fonts.conf

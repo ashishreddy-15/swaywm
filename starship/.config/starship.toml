@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 # ============================================================
-# Starship Prompt — Catppuccin Mocha theme
+# Starship Prompt — minimal monochrome + accent (see colors.md)
 # Two-line boxed prompt, performance-first design
 #
 # Preview:
@@ -48,7 +48,7 @@ command_timeout = 500
 # DIRECTORY
 # ============================================================
 [directory]
-style           = "bold #89b4fa"      # Catppuccin Blue
+style           = "bold #e6e6e6"
 truncation_length = 4                  # Show last 4 path segments max
 truncate_to_repo  = true              # Truncate to git root when inside a repo
 read_only         = " 󰌾"
@@ -61,7 +61,7 @@ format            = "[ $path]($style)[$read_only]($read_only_style) "
 # ============================================================
 [git_branch]
 symbol            = " "              # Nerd Font git icon
-style             = "bold #cba6f7"   # Catppuccin Mauve
+style             = "bold #888888"
 format            = "[$symbol$branch]($style) "
 truncation_length = 25
 truncation_symbol = "…"
@@ -72,7 +72,7 @@ truncation_symbol = "…"
 [git_status]
 # Format: shows all statuses inline, e.g. "+2!1?3 ⇡1"
 format      = '([$all_status$ahead_behind]($style) )'
-style       = "bold #a6e3a1"         # Catppuccin Green
+style       = "bold #e0a030"
 up_to_date  = "✓"
 untracked   = "?${count}"
 stashed     = " ${count}"
@@ -94,7 +94,7 @@ conflicted  = "⚡${count}"
 [cmd_duration]
 min_time          = 2_000            # ms — ignore fast commands
 format            = "[ $duration]($style) "
-style             = "bold #f9e2af"   # Catppuccin Yellow
+style             = "bold #888888"
 show_milliseconds = false
 min_time_to_notify = 10_000          # Desktop notification for > 10s commands
 
@@ -105,15 +105,15 @@ min_time_to_notify = 10_000          # Desktop notification for > 10s commands
 disabled    = false
 format      = "[$time]($style)"
 time_format = "%H:%M"
-style       = "dimmed #bac2de"       # Catppuccin Subtext1
+style       = "#555555"
 
 # ============================================================
 # CHARACTER — The ❯ prompt symbol; turns red on non-zero exit
 # ============================================================
 [character]
-success_symbol  = "[❯](bold #a6e3a1)"  # Green on success
-error_symbol    = "[❯](bold #f38ba8)"  # Red on failure
-vimcmd_symbol   = "[❮](bold #a6e3a1)"  # Reverse arrow in vim normal mode
+success_symbol  = "[❯](bold #7aa2c8)"
+error_symbol    = "[❯](bold #e05555)"
+vimcmd_symbol   = "[❮](bold #7aa2c8)"  # Reverse arrow in vim normal mode
 
 # ============================================================
 # EXIT STATUS — Shows exit code inline when command fails
@@ -122,14 +122,14 @@ vimcmd_symbol   = "[❮](bold #a6e3a1)"  # Reverse arrow in vim normal mode
 disabled = false
 format   = "[$symbol $status ]($style)"
 symbol   = "✘"
-style    = "bold #f38ba8"            # Catppuccin Red
+style    = "bold #e05555"
 map_symbol = true                    # Shows signal names (e.g. SIGKILL) not just numbers
 
 # ============================================================
 # USERNAME — Only shown on SSH or when root
 # ============================================================
 [username]
-style_user  = "bold #89b4fa"
+style_user  = "bold #e6e6e6"
 style_root  = "bold red"
 format      = "[$user]($style)[@](dimmed white)"
 show_always = false                  # Hidden on local sessions
@@ -140,7 +140,7 @@ show_always = false                  # Hidden on local sessions
 [hostname]
 ssh_only = true
 format   = "[$hostname]($style) "
-style    = "bold #74c7ec"            # Catppuccin Sapphire
+style    = "bold #888888"
 trim_at  = "."
 
 # ============================================================
@@ -151,7 +151,7 @@ trim_at  = "."
 
 [python]
 symbol           = " "
-style            = "bold #f9e2af"    # Catppuccin Yellow
+style            = "bold #888888"
 format           = '[$symbol${version}( \($virtualenv\))]($style) '
 detect_extensions = ["py"]
 detect_files     = ["requirements.txt", "pyproject.toml", "setup.py", ".python-version", "Pipfile"]
@@ -161,7 +161,7 @@ version_format   = "v${major}.${minor}"  # Shows "v3.11" not "v3.11.4"
 
 [nodejs]
 symbol         = " "
-style          = "bold #a6e3a1"
+style          = "bold #888888"
 format         = "[$symbol$version]($style) "
 detect_files   = ["package.json", ".nvmrc", ".node-version"]
 detect_folders = ["node_modules"]
@@ -169,28 +169,28 @@ version_format = "v${major}"         # Shows "v20" not "v20.11.0"
 
 [rust]
 symbol         = "󱘗 "
-style          = "bold #fab387"      # Catppuccin Peach
+style          = "bold #888888"
 format         = "[$symbol$version]($style) "
 detect_files   = ["Cargo.toml"]
 version_format = "v${major}.${minor}"
 
 [golang]
 symbol         = " "
-style          = "bold #89dceb"      # Catppuccin Sky
+style          = "bold #888888"
 format         = "[$symbol$version]($style) "
 detect_files   = ["go.mod", "go.sum", "go.work"]
 version_format = "v${major}.${minor}"
 
 [java]
 symbol         = " "
-style          = "bold #f38ba8"
+style          = "bold #888888"
 format         = "[$symbol$version]($style) "
 detect_files   = ["pom.xml", "build.gradle", "build.gradle.kts", ".java-version"]
 version_format = "v${major}"
 
 [docker_context]
 symbol       = " "
-style        = "bold #89b4fa"
+style        = "bold #888888"
 format       = "[$symbol$context]($style) "
 only_with_files = true               # Only show when docker-compose/Dockerfile exists
 detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]

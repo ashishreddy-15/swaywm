@@ -4,6 +4,25 @@
 
 # Solid black — no wallpaper on lock screen
 color=000000
+inside-color=111111
+inside-clear-color=111111
+inside-ver-color=111111
+inside-wrong-color=111111
+line-color=333333
+line-clear-color=888888
+line-ver-color=7aa2c8
+line-wrong-color=e05555
+ring-color=333333
+ring-clear-color=888888
+ring-ver-color=7aa2c8
+ring-wrong-color=e05555
+key-hl-color=7aa2c8
+bs-hl-color=e05555
+text-color=e6e6e6
+text-clear-color=e6e6e6
+text-ver-color=e6e6e6
+text-wrong-color=e05555
+separator-color=00000000
 
 # Show indicator on blank screen too (not only on keypress)
 show-failed-attempts

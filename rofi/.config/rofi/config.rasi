@@ -1,6 +1,6 @@
 /**
  * Rofi Configuration
- * Theme: Arc-Dark (official built-in theme, compact padding)
+ * Theme: minimal monochrome + accent (see colors.md)
  * Font:  Maple Mono NF
  **/
 
@@ -23,7 +23,35 @@ configuration {
     display-combi:              "Search";
 }
 
-@theme "Arc-Dark"
+* {
+    bg:      #000000;
+    surface: #111111;
+    border:  #333333;
+    muted:   #888888;
+    fg:      #e6e6e6;
+    accent:  #7aa2c8;
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+window {
+    background-color: @bg;
+    border:           1px solid;
+    border-color:     @border;
+}
+
+inputbar    { background-color: @surface; children: [prompt, entry]; spacing: 8px; }
+prompt      { text-color: @accent; }
+entry       { placeholder: ""; text-color: @fg; }
+listview    { background-color: @bg; }
+element selected.normal,
+element selected.active,
+element selected.urgent { background-color: @surface; text-color: @accent; }
+element alternate.normal,
+element normal.normal   { background-color: transparent; text-color: @fg; }
+element normal.active   { text-color: @accent; }
+element normal.urgent   { text-color: #e05555; }
+message     { background-color: @surface; text-color: @muted; }
 
 /* ── Sleek Wide Rectangle Dimensions ────────────────────────── */
 window {

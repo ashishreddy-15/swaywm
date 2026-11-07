@@ -41,6 +41,15 @@ output $samsung resolution 2560x1440@100Hz  position 1920,0 subpixel rgb
 # No wallpaper — solid black background on all outputs
 output * bg #000000 solid_color
 
+# ── Window colors (palette: see colors.md) ──────────────────
+#                       border   background text     indicator child_border
+client.focused          #7aa2c8  #111111    #e6e6e6  #7aa2c8   #7aa2c8
+client.focused_inactive #333333  #111111    #888888  #333333   #333333
+client.unfocused        #333333  #000000    #888888  #333333   #333333
+client.urgent           #e05555  #111111    #e6e6e6  #e05555   #e05555
+client.placeholder      #333333  #000000    #888888  #333333   #333333
+client.background       #000000
+
 # ── Clamshell Mode (Laptop Lid Switch) ──────────────────────
 # --reload re-runs the binding on `reload`, so the panel stays off if the
 # lid is closed. kanshi also runs lid-handler.sh after every hotplug.

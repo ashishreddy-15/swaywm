@@ -1,3 +1,15 @@
+/* ── Palette (see colors.md) ────────────────────────────────── */
+@define-color bg      #000000;
+@define-color surface #111111;
+@define-color raised  #222222;
+@define-color border  #333333;
+@define-color dim     #555555;
+@define-color muted   #888888;
+@define-color fg      #e6e6e6;
+@define-color accent  #7aa2c8;
+@define-color red     #e05555;
+@define-color amber   #e0a030;
+
 /* ── Classic i3bar Aesthetic ────────────────────────────────── */
 * {
     border: none;
@@ -11,20 +23,20 @@
 
 /* Bottom Bar */
 window#waybar {
-    background-color: #000000;
-    border-top: 1px solid #333333;
-    color: #ffffff;
+    background-color: @bg;
+    border-top: 1px solid @border;
+    color: @fg;
 }
 
 /* Tooltips */
 tooltip {
-    background: #111111;
-    border: 1px solid #333333;
+    background: @surface;
+    border: 1px solid @border;
     padding: 4px;
 }
 
 tooltip label {
-    color: #ffffff;
+    color: @fg;
     font-family: 'Maple Mono NF', 'JetBrains Mono', 'Noto Sans Mono', monospace;
     font-size: 12px;
 }
@@ -41,40 +53,40 @@ tooltip label {
     margin: 1px 1px;
     min-width: 0;
     min-height: 0;
-    border: 1px solid #333333;
+    border: 1px solid @border;
     border-radius: 0;
-    background-color: #222222;
-    color: #888888;
+    background-color: @raised;
+    color: @muted;
     box-shadow: none;
     text-shadow: none;
     transition: none;
 }
 
 #workspaces button:hover {
-    background-color: #333333;
-    border-color: #444444;
-    color: #ffffff;
+    background-color: @border;
+    border-color: @dim;
+    color: @fg;
 }
 
 #workspaces button.focused,
 #workspaces button.active {
-    background-color: #285577;
-    border-color: #4c7899;
-    color: #ffffff;
+    background-color: @accent;
+    border-color: @accent;
+    color: @bg;
     font-weight: bold;
 }
 
 #workspaces button.urgent {
-    background-color: #900000;
-    border-color: #2f343a;
-    color: #ffffff;
+    background-color: @red;
+    border-color: @red;
+    color: @bg;
 }
 
 /* ── Mode ──────────────────────────────────────────────────── */
 #mode {
-    background-color: #900000;
-    border: 1px solid #2f343a;
-    color: #ffffff;
+    background-color: @red;
+    border: 1px solid @red;
+    color: @bg;
     padding: 0 6px;
     margin: 1px 1px;
     min-width: 0;
@@ -89,7 +101,7 @@ tooltip label {
     margin: 0;
     min-width: 0;
     background: transparent;
-    color: #ffffff;
+    color: @fg;
 }
 
 #tray {
@@ -106,7 +118,7 @@ tooltip label {
 #custom-separator-2,
 #custom-separator-3,
 #custom-separator-4 {
-    color: #444444;
+    color: @dim;
     padding: 0 2px;
     margin: 0;
     min-width: 0;
@@ -114,17 +126,17 @@ tooltip label {
 
 /* Idle Inhibitor */
 #idle_inhibitor {
-    color: #888888;
+    color: @muted;
 }
 
 #idle_inhibitor.activated {
-    color: #4c7899;
+    color: @accent;
     font-weight: bold;
 }
 
 /* Audio States */
 #pulseaudio.muted {
-    color: #888888;
+    color: @muted;
 }
 
 /* Battery States */
@@ -134,15 +146,15 @@ tooltip label {
 
 #battery.charging,
 #battery.plugged {
-    color: #55ff55;
+    color: @accent;
 }
 
 #battery.warning:not(.charging) {
-    color: #ffaa00;
+    color: @amber;
 }
 
 #battery.critical:not(.charging) {
-    color: #ff3333;
+    color: @red;
     font-weight: bold;
 }
 
@@ -153,20 +165,20 @@ tooltip label {
     margin: 0;
     min-width: 0;
     background: transparent;
-    color: #888888;
+    color: @muted;
 }
 
 #power-profiles-daemon.performance {
-    color: #ffaa00;
+    color: @accent;
     font-weight: bold;
 }
 
 #power-profiles-daemon.balanced {
-    color: #38bdf8;
+    color: @fg;
 }
 
 #power-profiles-daemon.power-saver {
-    color: #55ff55;
+    color: @muted;
 }
 
 /* Tray */
