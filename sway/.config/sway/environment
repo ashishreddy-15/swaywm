@@ -1,20 +1,6 @@
-# This file is a part of Fedora configuration for Sway and will be sourced
-# from /usr/bin/start-sway script for all users of the system.
-# User-specific variables should be placed in $XDG_CONFIG_HOME/sway/environment
-#
+# Sourced by /usr/bin/start-sway before sway starts (Fedora).
+# Only user overrides go here; the system defaults live in /etc/sway/environment.
 # vim: set ft=sh:
 
-## Pass extra arguments to the /usr/bin/sway executable
-
-#SWAY_EXTRA_ARGS="$SWAY_EXTRA_ARGS --unsupported-gpu"
-#SWAY_EXTRA_ARGS="$SWAY_EXTRA_ARGS --debug"
-
-## Set environment variables
-
-# Useful variables for wlroots:
-# https://gitlab.freedesktop.org/wlroots/wlroots/-/blob/master/docs/env_vars.md
-#
-#WLR_NO_HARDWARE_CURSORS=1
-
-# Application compatibility
+# Java GUI apps render blank windows under non-reparenting WMs without this
 _JAVA_AWT_WM_NONREPARENTING=1

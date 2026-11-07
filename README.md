@@ -11,27 +11,37 @@ Configured specifically for a **dual-monitor productivity workflow** (Laptop + 2
 ### Physical Layout
 
 ```
-┌──────────────────┐  ┌─────────────────────────────────────────┐
-│      eDP-1       │  │                HDMI-A-1                 │
-│  Laptop Display  │  │        Samsung 27" Quad HD @ 100Hz      │
-│    1920 x 1200   │  │               2560 x 1440               │
-│   Position: 0,0  │  │            Position: 1920, 0            │
-│  Workspaces 6-10 │  │             Workspaces 1-5              │
+                      ┌─────────────────────────────────────────┐
+                      │      Samsung 27" (HDMI or USB-C/DP)     │
+┌──────────────────┐  │         Quad HD 2560 x 1440 @ 100Hz     │
+│      eDP-1       │  │                                         │
+│  Laptop Display  │  │            Position: 1920, 0            │
+│    1920 x 1200   │  │                                         │
+│ Position: 0, 240 │  │             Workspaces 1-5              │
+│  Workspaces 6-10 │  │                                         │
 └──────────────────┘  └─────────────────────────────────────────┘
+```
+
+The two screens are **bottom-aligned**, so the mouse crosses between them where you expect.
+
+```
 ```
 
 ### Dynamic Multi-Monitor Management
 
-* **[Kanshi](https://sr.ht/~emersion/kanshi/) Profile Switching**:
-  * **`dual` profile**: Automatically triggers when the HDMI cable is connected. Configures positions and executes [`migrate-workspaces.sh dual`](file:///home/ashish/swaywm/sway/.config/sway/scripts/migrate-workspaces.sh).
-  * **`solo` profile**: Automatically detects HDMI disconnect and consolidates all active workspaces onto the laptop display via [`migrate-workspaces.sh solo`](file:///home/ashish/swaywm/sway/.config/sway/scripts/migrate-workspaces.sh).
-* **Clamshell Mode**:
-  * Closing the laptop lid with an external display connected disables `eDP-1`, repositions `HDMI-A-1` to `(0, 0)`, and routes all workspaces to the external screen without interruption via [`lid-handler.sh`](file:///home/ashish/swaywm/sway/.config/sway/scripts/lid-handler.sh).
-  * Opening the lid restores the dual-screen configuration and redistributes workspaces.
-* **Workspace Pinning**:
-  * Workspaces `1` to `5` are bound to `HDMI-A-1` (fallback to `eDP-1`).
-  * Workspaces `6` to `10` are bound to `eDP-1` (fallback to `HDMI-A-1`).
-  * Jump focus between displays at any time with `$mod + Tab`.
+* **[Kanshi](https://sr.ht/~emersion/kanshi/) Profile Switching** (`kanshi/.config/kanshi/config`):
+  * **`dual`**: the Samsung is matched by make/model/serial, so it works on any port (HDMI or USB-C).
+  * **`external`**: any other monitor gets its preferred mode, to the right of the laptop.
+  * **`solo`**: laptop screen only.
+  * After `dual`/`external` are applied, kanshi runs `lid-handler.sh`, so plugging in a monitor while the lid is closed does not turn the laptop panel back on.
+* **Clamshell Mode** ([`lid-handler.sh`](sway/.config/sway/scripts/lid-handler.sh)):
+  * Closing the lid with an external screen connected turns `eDP-1` off; opening it turns it back on.
+  * With no external screen, closing the lid does nothing in sway (logind handles suspend).
+  * Called with no argument it reads the lid state from `/proc/acpi/button/lid/*/state`.
+* **Workspace Pinning** (no scripts needed):
+  * Workspaces `1`–`5` prefer the external monitor (fallback `eDP-1`); `6`–`10` prefer `eDP-1` (fallback external).
+  * Sway uses these preference lists itself: when a screen turns off or is unplugged its workspaces move to the other one, and when it comes back they move back.
+  * `$mod + Tab` jumps focus to the other screen; `$mod + Shift + Tab` sends the current workspace there.
 
 ---
 
@@ -51,6 +61,7 @@ Each component is modularized as an independent GNU Stow package:
 | **`starship`** | `~/.config/starship.toml` | Fast, informative two-line shell prompt (Catppuccin Mocha theme). |
 | **`btop`** | `~/.config/btop` | Terminal system resource monitor. |
 | **`fontconfig`** | `~/.config/fontconfig` | Font configuration directing to `~/.local/share/fonts`. |
+| **`xdg-desktop-portal-wlr`** | `~/.config/xdg-desktop-portal-wlr` | Screen sharing asks which monitor to share (click it with `slurp`). |
 | **`nvim`** | `~/.config/nvim` | Neovim IDE configuration (lazy.nvim, Treesitter, LSP, Telescope, Oil, and completion). |
 
 ---
@@ -59,44 +70,19 @@ Each component is modularized as an independent GNU Stow package:
 
 [GNU Stow](https://www.gnu.org/software/stow/) manages symlinks from this repository directly into `$HOME` (`~/.config/...`).
 
-### Stow All Packages
-To symlink all configuration packages at once:
+The repo's [`.stowrc`](.stowrc) sets the defaults, so plain `stow` commands work from `~/swaywm`:
+
+* `--target=~`: links go into your home directory.
+* `--no-folding`: every file gets its own symlink and directories like `~/.config/sway` stay real. Logs and caches that apps write into their config dir (e.g. `btop.log`) stay out of the repo, and new files you add to the repo only appear after a restow.
+* `--ignore=\.bak...`: `*.bak` backups are never linked.
 
 ```bash
 cd ~/swaywm
-stow -v -t ~ */
-```
-
-*(Or specify package names explicitly)*:
-```bash
-cd ~/swaywm
-stow -v -t ~ sway kanshi waybar rofi dunst foot swaylock starship btop fontconfig nvim
-```
-
-### Stow an Individual Package
-```bash
-cd ~/swaywm
-stow -v -t ~ sway
-```
-
-### Unstow / Remove Symlinks
-To remove the symlinks for a package:
-```bash
-cd ~/swaywm
-stow -D -v -t ~ sway
-```
-
-### Restow / Refresh Symlinks
-If you add or rename files within a package:
-```bash
-cd ~/swaywm
-stow -R -v -t ~ sway
-```
-
-### Dry Run (Test Before Stowing)
-```bash
-cd ~/swaywm
-stow -n -v -t ~ sway
+stow -v */            # stow every package
+stow -v sway          # stow one package
+stow -R -v sway       # restow after adding/removing files in a package
+stow -D -v sway       # remove a package's symlinks
+stow -n -v sway       # dry run
 ```
 
 ---
@@ -111,16 +97,17 @@ Modifier Key: **`$mod` = `Super` (Windows key)**
 | `$mod + Return` | Open Foot terminal |
 | `$mod + d` | Toggle Rofi application launcher |
 | `$mod + x` | Toggle Rofi power menu (Lock, Logout, Suspend, Reboot, Shutdown) |
-| `$mod + v` | Toggle Rofi clipboard history (`cliphist`) |
+| `$mod + v` | Toggle Rofi clipboard history (`cliphist`, last 200 entries; password-manager copies are skipped) |
+| `$mod + Ctrl + v` | Wipe clipboard history |
 | `$mod + q` | Close focused window |
-| `$mod + Shift + e` | Emergency exit / power menu |
 
 ### Navigation & Focus
 | Shortcut | Action |
 | :--- | :--- |
 | `$mod + h` / `j` / `k` / `l` | Focus left / down / up / right |
 | `$mod + Left` / `Down` / `Up` / `Right` | Focus left / down / up / right |
-| `$mod + Tab` | Focus next monitor / output |
+| `$mod + Tab` | Focus the other monitor |
+| `$mod + Shift + Tab` | Move the current workspace to the other monitor |
 | `$mod + 1` .. `$mod + 0` | Switch to workspace 1 - 10 |
 | `$mod + Shift + 1` .. `0` | Move focused window to workspace 1 - 10 |
 
@@ -147,12 +134,20 @@ Modifier Key: **`$mod` = `Super` (Windows key)**
 | `Alt + Print` | Capture active window (save & copy to clipboard) |
 | `Ctrl + Print` | Select area to capture with `slurp` (save & copy to clipboard) |
 
+### Brightness
+| Shortcut | Action |
+| :--- | :--- |
+| `$mod + [` / `XF86MonBrightnessDown` | Dim the **focused** screen (laptop never below 1%) |
+| `$mod + ]` / `XF86MonBrightnessUp` | Brighten the **focused** screen |
+
+The laptop panel uses `brightnessctl`; the external monitor uses `ddcutil` (DDC/CI). A dunst progress bar shows the new level.
+
 ### Session & System
 | Shortcut | Action |
 | :--- | :--- |
 | `$mod + Shift + r` | Reload Sway configuration |
 | `$mod + Shift + Escape` | Lock screen (`swaylock`) |
-| Waybar Power Icon (Right Click) | Cycle power profile (Power-saver → Balanced → Performance) |
+| Waybar power-profile indicator (click) | Cycle power profile (Power-saver → Balanced → Performance) |
 
 ---
 
@@ -164,7 +159,8 @@ sudo dnf install -y \
     sway swayidle swaylock \
     waybar kanshi rofi-wayland dunst foot \
     grim slurp grimshot \
-    cliphist wl-clipboard \
+    cliphist wl-clipboard libnotify \
+    brightnessctl ddcutil xdg-desktop-portal-wlr \
     jq btop starship power-profiles-daemon \
     neovim ripgrep fd-find \
     stow git
@@ -184,20 +180,19 @@ systemctl --user enable --now kanshi.service
 ~/swaywm/
 ├── README.md
 ├── .gitignore
+├── .stowrc
 ├── sway/
 │   └── .config/sway/
 │       ├── config
 │       ├── environment
-│       ├── sddm-greeter.config
-│       ├── config.d/
-│       │   ├── 10-systemd-cgroups.conf
-│       │   ├── 10-systemd-session.conf
+│       ├── config.d/                 # only files that override Fedora's defaults
+│       │   ├── 60-bindings-brightness.conf
 │       │   ├── 60-bindings-screenshot.conf
 │       │   └── 90-swayidle.conf
 │       └── scripts/
+│           ├── brightness.sh
 │           ├── clipboard-menu.sh
 │           ├── lid-handler.sh
-│           ├── migrate-workspaces.sh
 │           ├── power-menu.sh
 │           └── rofi-toggle.sh
 ├── kanshi/
@@ -205,9 +200,9 @@ systemctl --user enable --now kanshi.service
 │       └── config
 ├── waybar/
 │   └── .config/waybar/
-│       ├── config.jsonc
-│       ├── style.css
-│       └── cycle-power-profile.sh
+│       ├── config.jsonc          # one block per screen
+│       ├── modules.jsonc         # module settings shared by both bars
+│       └── style.css
 ├── rofi/
 │   └── .config/rofi/
 │       └── config.rasi
@@ -229,6 +224,9 @@ systemctl --user enable --now kanshi.service
 ├── fontconfig/
 │   └── .config/fontconfig/
 │       └── fonts.conf
+├── xdg-desktop-portal-wlr/
+│   └── .config/xdg-desktop-portal-wlr/
+│       └── config
 └── nvim/
     └── .config/nvim/
         ├── init.lua

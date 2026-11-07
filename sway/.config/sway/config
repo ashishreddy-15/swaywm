@@ -15,22 +15,35 @@ set $term        foot
 set $rofi_toggle ~/.config/sway/scripts/rofi-toggle.sh
 set $menu        $rofi_toggle launcher
 
+# Outputs: the laptop panel, and every port an external monitor can use
+# (HDMI or USB-C/DP), so workspace rules work with any external screen.
+set $laptop   eDP-1
+set $external HDMI-A-1 DP-1 DP-2 DP-3 DP-4
+set $samsung  "Samsung Electric Company LS27F61x H4CL500159"
+
 # ── Appearance ──────────────────────────────────────────────
 font pango:Maple Mono NF 10
 
 # ── Output ──────────────────────────────────────────────────
-# Physical layout: [laptop eDP-1] [external HDMI-A-1]
+# Physical layout: [laptop eDP-1] [Samsung 27"]
 #   Laptop screen is to the LEFT; turn your head left to see it.
-#   eDP-1  starts at x=0;    width=1920  → occupies 0..1920
-#   HDMI-A-1 starts at x=1920; width=2560 → occupies 1920..4480
+#   eDP-1    x=0..1920,    y=240..1440  (bottom-aligned with the Samsung)
+#   Samsung  x=1920..4480, y=0..1440
+# The Samsung is matched by make/model/serial, not by port, so it works on
+# HDMI or USB-C. Keep these in sync with ~/.config/kanshi/config: kanshi
+# handles hotplug, these lines keep the layout right after `reload`.
+# `subpixel rgb`: both panels report "unknown", which makes foot and other
+# clients fall back to grayscale font smoothing (softer text, esp. at ~109 PPI).
 
-output eDP-1    resolution 1920x1200   position 0,0
-output HDMI-A-1 resolution 2560x1440@100Hz position 1920,0
+output $laptop  resolution 1920x1200        position 0,240 subpixel rgb
+output $samsung resolution 2560x1440@100Hz  position 1920,0 subpixel rgb
 
 # No wallpaper — solid black background on all outputs
 output * bg #000000 solid_color
 
 # ── Clamshell Mode (Laptop Lid Switch) ──────────────────────
+# --reload re-runs the binding on `reload`, so the panel stays off if the
+# lid is closed. kanshi also runs lid-handler.sh after every hotplug.
 bindswitch --reload --locked lid:on  exec ~/.config/sway/scripts/lid-handler.sh close
 bindswitch --reload --locked lid:off exec ~/.config/sway/scripts/lid-handler.sh open
 
@@ -45,8 +58,9 @@ input "type:touchpad" {
 }
 
 # ── Clipboard history daemon ─────────────────────────────────
-exec wl-paste --watch cliphist store
-exec wl-paste --type image --watch cliphist store
+# Entries copied from password managers (marked sensitive) are not stored.
+exec wl-paste --watch cliphist -max-items 200 store
+exec wl-paste --type image --watch cliphist -max-items 200 store
 
 # ── Key bindings: Basics ─────────────────────────────────────
 bindsym $mod+Return       exec $term
@@ -54,9 +68,9 @@ bindsym $mod+q            kill
 bindsym $mod+d            exec $menu
 bindsym $mod+x            exec $rofi_toggle power
 bindsym $mod+v            exec $rofi_toggle clipboard
+bindsym $mod+Ctrl+v       exec cliphist wipe && notify-send -u low "Clipboard" "History cleared"
 bindsym $mod+Shift+r      reload
 bindsym $mod+Shift+Escape exec loginctl lock-session
-bindsym $mod+Shift+e      exec $rofi_toggle power
 
 # Drag/resize floating windows with $mod + mouse buttons
 floating_modifier $mod normal
@@ -82,18 +96,21 @@ bindsym $mod+Shift+Up      move up
 bindsym $mod+Shift+Right   move right
 
 # ── Workspace output assignments ─────────────────────────────
-# 1-5  → external Samsung (HDMI-A-1) preferred, laptop (eDP-1) fallback
-# 6-10 → laptop screen (eDP-1) preferred, external (HDMI-A-1) fallback
-workspace 1  output HDMI-A-1 eDP-1
-workspace 2  output HDMI-A-1 eDP-1
-workspace 3  output HDMI-A-1 eDP-1
-workspace 4  output HDMI-A-1 eDP-1
-workspace 5  output HDMI-A-1 eDP-1
-workspace 6  output eDP-1 HDMI-A-1
-workspace 7  output eDP-1 HDMI-A-1
-workspace 8  output eDP-1 HDMI-A-1
-workspace 9  output eDP-1 HDMI-A-1
-workspace 10 output eDP-1 HDMI-A-1
+# 1-5  → external monitor preferred, laptop fallback
+# 6-10 → laptop preferred, external fallback
+# Sway uses these lists to move workspaces automatically: when an output is
+# disabled/unplugged its workspaces go to the fallback, and when the
+# preferred output comes back they return to it. No scripts needed.
+workspace 1  output $external $laptop
+workspace 2  output $external $laptop
+workspace 3  output $external $laptop
+workspace 4  output $external $laptop
+workspace 5  output $external $laptop
+workspace 6  output $laptop $external
+workspace 7  output $laptop $external
+workspace 8  output $laptop $external
+workspace 9  output $laptop $external
+workspace 10 output $laptop $external
 
 # ── Key bindings: Workspaces ─────────────────────────────────
 bindsym $mod+1 workspace number 1
@@ -118,8 +135,9 @@ bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
 
-# Jump focus between monitors
-bindsym $mod+Tab focus output right
+# Jump focus between monitors / send the current workspace to the other one
+bindsym $mod+Tab       focus output right
+bindsym $mod+Shift+Tab move workspace to output right
 
 # ── Key bindings: Layout ─────────────────────────────────────
 bindsym $mod+b       splith

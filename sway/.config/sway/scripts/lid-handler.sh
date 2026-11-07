@@ -1,36 +1,40 @@
 #!/usr/bin/env bash
+# ============================================================
+# Clamshell handler: turns the laptop panel off/on with the lid.
+#
+# Usage: lid-handler.sh [open|close]
+#   open/close  called by sway's bindswitch on lid events
+#   (no arg)    read the lid state from ACPI; kanshi calls it like this
+#               after every profile change, so plugging in a monitor
+#               while the lid is closed can't turn the panel back on.
+#
+# Workspaces are not moved here: the `workspace N output ...` rules in
+# the sway config make sway move them to the right output by itself.
+# ============================================================
 
-ACTION="$1"
 LAPTOP="eDP-1"
-EXTERNAL="HDMI-A-1"
+STATE="$1"
 
-# Check if external monitor is connected
-has_external=$(swaymsg -t get_outputs 2>/dev/null | jq -r '[.[] | select(.name == "'"$EXTERNAL"'")] | length' 2>/dev/null)
-
-if [ "$ACTION" = "close" ]; then
-    if [ "${has_external:-0}" -gt 0 ]; then
-        # Disable laptop screen
-        swaymsg output "$LAPTOP" disable
-        # Reposition external monitor to 0 0
-        swaymsg output "$EXTERNAL" position 0 0
-        # Move all active workspaces to external monitor
-        for i in {1..10}; do
-            swaymsg "[workspace=\"$i\"] move workspace to output $EXTERNAL" >/dev/null 2>&1
-        done
-    fi
-elif [ "$ACTION" = "open" ]; then
-    # Re-enable laptop screen at 0 0
-    swaymsg output "$LAPTOP" enable position 0 0
-    # If external monitor is present, restore dual monitor positions and workspace layout
-    if [ "${has_external:-0}" -gt 0 ]; then
-        swaymsg output "$EXTERNAL" position 1920 0
-        for i in {1..5}; do
-            swaymsg "[workspace=\"$i\"] move workspace to output $EXTERNAL" >/dev/null 2>&1
-        done
-        for i in {6..10}; do
-            swaymsg "[workspace=\"$i\"] move workspace to output $LAPTOP" >/dev/null 2>&1
-        done
+if [ -z "$STATE" ]; then
+    if grep -qs closed /proc/acpi/button/lid/*/state; then
+        STATE="close"
+    else
+        STATE="open"
     fi
 fi
 
-exit 0
+# Number of connected outputs other than the laptop panel
+externals=$(swaymsg -t get_outputs -r | jq --arg l "$LAPTOP" '[.[] | select(.name != $l)] | length')
+
+case "$STATE" in
+    close)
+        # Only go clamshell if there is another screen to use;
+        # otherwise leave the panel alone (logind handles suspend).
+        if [ "${externals:-0}" -gt 0 ]; then
+            swaymsg output "$LAPTOP" disable >/dev/null
+        fi
+        ;;
+    open)
+        swaymsg output "$LAPTOP" enable >/dev/null
+        ;;
+esac

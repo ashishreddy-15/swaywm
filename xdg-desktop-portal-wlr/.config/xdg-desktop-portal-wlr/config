@@ -1,0 +1,6 @@
+# Screen sharing (Meet, Zoom, browsers, OBS) through xdg-desktop-portal-wlr.
+# Instead of silently sharing the first monitor, ask which one to share:
+# click the monitor you want (Esc cancels).
+[screencast]
+chooser_type=simple
+chooser_cmd=slurp -f %o -or

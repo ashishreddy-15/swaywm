@@ -1,8 +1,11 @@
 // -*- mode: jsonc -*-
-// Clean, minimal i3bar-style Waybar configuration with per-display scaling
+// Clean, minimal i3bar-style Waybar configuration with per-display sizing.
+// Module settings live in modules.jsonc; each bar below only sets what
+// differs between the two screens (height, tray size).
 [
     // ── External Displays (HDMI, DisplayPort, USB-C) ───────────
     {
+        "include": ["~/.config/waybar/modules.jsonc"],
         "output": "!eDP-1",
         "name": "external",
         "layer": "bottom",
@@ -10,118 +13,22 @@
         "height": 24,
         "spacing": 0,
 
-        "modules-left": [
-            "sway/workspaces",
-            "sway/mode"
-        ],
+        "modules-left": ["sway/workspaces", "sway/mode"],
         "modules-center": [],
         "modules-right": [
-            "idle_inhibitor",
-            "custom/separator#1",
-            "pulseaudio",
-            "custom/separator#2",
-            "battery",
-            "power-profiles-daemon",
-            "custom/separator#3",
-            "clock",
-            "custom/separator#4",
+            "idle_inhibitor", "custom/separator#1",
+            "pulseaudio", "custom/separator#2",
+            "battery", "power-profiles-daemon", "custom/separator#3",
+            "clock", "custom/separator#4",
             "tray"
         ],
 
-        "custom/separator#1": {
-            "format": "|",
-            "tooltip": false
-        },
-        "custom/separator#2": {
-            "format": "|",
-            "tooltip": false
-        },
-        "custom/separator#3": {
-            "format": "|",
-            "tooltip": false
-        },
-        "custom/separator#4": {
-            "format": "|",
-            "tooltip": false
-        },
-
-        "sway/workspaces": {
-            "disable-scroll": true,
-            "all-outputs": false,
-            "format": "{name}"
-        },
-
-        "sway/mode": {
-            "format": "<span style=\"italic\">[{}]</span>"
-        },
-
-        "idle_inhibitor": {
-            "format": "{icon}",
-            "format-icons": {
-                "activated": "[AWAKE]",
-                "deactivated": "IDLE"
-            },
-            "tooltip": true,
-            "tooltip-format-activated": "Idle inhibitor: Active",
-            "tooltip-format-deactivated": "Idle inhibitor: Inactive"
-        },
-
-        "pulseaudio": {
-            "scroll-step": 5,
-            "format": "VOL {volume}%",
-            "format-bluetooth": "VOL {volume}% [BT]",
-            "format-bluetooth-muted": "VOL [MUTED]",
-            "format-muted": "VOL [MUTED]",
-            "on-click": "pavucontrol",
-            "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-            "tooltip-format": "{desc} ({volume}%)"
-        },
-
-        "battery": {
-            "states": {
-                "warning": 25,
-                "critical": 15
-            },
-            "format": "BAT {capacity}%",
-            "format-charging": "BAT {capacity}% [CHR]",
-            "format-plugged": "BAT {capacity}% [AC]",
-            "format-alt": "BAT {time}",
-            "on-click-right": "$HOME/.config/waybar/cycle-power-profile.sh",
-            "tooltip-format": "{timeTo}, {capacity}%\nPower draw: {power:0.2f}W"
-        },
-
-        "power-profiles-daemon": {
-            "format": "{icon}",
-            "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-            "tooltip": true,
-            "format-icons": {
-                "default": "[DEF]",
-                "performance": "[PERF]",
-                "balanced": "[BAL]",
-                "power-saver": "[SAV]"
-            }
-        },
-
-        "clock": {
-            "interval": 1,
-            "format": "{:%Y-%m-%d %H:%M:%S}",
-            "format-alt": "{:%a %b %d  %H:%M}",
-            "tooltip-format": "<tt><small>{calendar}</small></tt>",
-            "calendar": {
-                "mode": "month",
-                "weeks-pos": "right",
-                "on-scroll": 1
-            }
-        },
-
-        "tray": {
-            "icon-size": 15,
-            "spacing": 6
-        }
+        "tray": { "icon-size": 15, "spacing": 6 }
     },
 
     // ── Laptop Display (eDP-1) ──────────────────────────────────
     {
+        "include": ["~/.config/waybar/modules.jsonc"],
         "output": "eDP-1",
         "name": "laptop",
         "layer": "bottom",
@@ -129,113 +36,16 @@
         "height": 28,
         "spacing": 0,
 
-        "modules-left": [
-            "sway/workspaces",
-            "sway/mode"
-        ],
+        "modules-left": ["sway/workspaces", "sway/mode"],
         "modules-center": [],
         "modules-right": [
-            "idle_inhibitor",
-            "custom/separator#1",
-            "pulseaudio",
-            "custom/separator#2",
-            "battery",
-            "power-profiles-daemon",
-            "custom/separator#3",
-            "clock",
-            "custom/separator#4",
+            "idle_inhibitor", "custom/separator#1",
+            "pulseaudio", "custom/separator#2",
+            "battery", "power-profiles-daemon", "custom/separator#3",
+            "clock", "custom/separator#4",
             "tray"
         ],
 
-        "custom/separator#1": {
-            "format": "|",
-            "tooltip": false
-        },
-        "custom/separator#2": {
-            "format": "|",
-            "tooltip": false
-        },
-        "custom/separator#3": {
-            "format": "|",
-            "tooltip": false
-        },
-        "custom/separator#4": {
-            "format": "|",
-            "tooltip": false
-        },
-
-        "sway/workspaces": {
-            "disable-scroll": true,
-            "all-outputs": false,
-            "format": "{name}"
-        },
-
-        "sway/mode": {
-            "format": "<span style=\"italic\">[{}]</span>"
-        },
-
-        "idle_inhibitor": {
-            "format": "{icon}",
-            "format-icons": {
-                "activated": "[AWAKE]",
-                "deactivated": "IDLE"
-            },
-            "tooltip": true,
-            "tooltip-format-activated": "Idle inhibitor: Active",
-            "tooltip-format-deactivated": "Idle inhibitor: Inactive"
-        },
-
-        "pulseaudio": {
-            "scroll-step": 5,
-            "format": "VOL {volume}%",
-            "format-bluetooth": "VOL {volume}% [BT]",
-            "format-bluetooth-muted": "VOL [MUTED]",
-            "format-muted": "VOL [MUTED]",
-            "on-click": "pavucontrol",
-            "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-            "tooltip-format": "{desc} ({volume}%)"
-        },
-
-        "battery": {
-            "states": {
-                "warning": 25,
-                "critical": 15
-            },
-            "format": "BAT {capacity}%",
-            "format-charging": "BAT {capacity}% [CHR]",
-            "format-plugged": "BAT {capacity}% [AC]",
-            "format-alt": "BAT {time}",
-            "on-click-right": "$HOME/.config/waybar/cycle-power-profile.sh",
-            "tooltip-format": "{timeTo}, {capacity}%\nPower draw: {power:0.2f}W"
-        },
-
-        "power-profiles-daemon": {
-            "format": "{icon}",
-            "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-            "tooltip": true,
-            "format-icons": {
-                "default": "[DEF]",
-                "performance": "[PERF]",
-                "balanced": "[BAL]",
-                "power-saver": "[SAV]"
-            }
-        },
-
-        "clock": {
-            "interval": 1,
-            "format": "{:%Y-%m-%d %H:%M:%S}",
-            "format-alt": "{:%a %b %d  %H:%M}",
-            "tooltip-format": "<tt><small>{calendar}</small></tt>",
-            "calendar": {
-                "mode": "month",
-                "weeks-pos": "right",
-                "on-scroll": 1
-            }
-        },
-
-        "tray": {
-            "icon-size": 17,
-            "spacing": 7
-        }
+        "tray": { "icon-size": 17, "spacing": 7 }
     }
 ]

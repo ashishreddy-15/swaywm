@@ -1,15 +1,28 @@
 # ── Kanshi Display Profiles ──────────────────────────────────
-# Handles HDMI connect / disconnect events
+# Applied automatically on monitor connect/disconnect.
+# The first profile whose outputs match the connected screens wins.
+#
+# Workspaces follow the outputs on their own (see the `workspace N output`
+# rules in the sway config). After a profile is applied, lid-handler.sh
+# turns the laptop panel off again if the lid is closed.
+#
+# Keep positions in sync with the `output` lines in ~/.config/sway/config.
 
-# Dual monitor setup (Laptop on left, Samsung 27" at 100Hz on right)
+# Laptop (left, bottom-aligned) + Samsung 27" @ 100Hz (right), any port
 profile dual {
-    output eDP-1 mode 1920x1200 position 0,0
-    output HDMI-A-1 mode 2560x1440@100Hz position 1920,0
-    exec ~/.config/sway/scripts/migrate-workspaces.sh dual
+    output eDP-1 enable mode 1920x1200 position 0,240
+    output "Samsung Electric Company LS27F61x H4CL500159" enable mode 2560x1440@100Hz position 1920,0
+    exec ~/.config/sway/scripts/lid-handler.sh
 }
 
-# Solo / Laptop screen only (when HDMI cable is unplugged)
+# Laptop + any other external monitor (preferred mode, to the right)
+profile external {
+    output eDP-1 enable mode 1920x1200 position 0,0
+    output * enable position 1920,0
+    exec ~/.config/sway/scripts/lid-handler.sh
+}
+
+# Laptop only
 profile solo {
-    output eDP-1 mode 1920x1200 position 0,0
-    exec ~/.config/sway/scripts/migrate-workspaces.sh solo
+    output eDP-1 enable mode 1920x1200 position 0,0
 }
