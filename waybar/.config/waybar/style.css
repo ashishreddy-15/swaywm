@@ -1,0 +1,218 @@
+/* ── Classic i3bar Aesthetic ────────────────────────────────── */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: 'Maple Mono NF', 'JetBrains Mono', 'Noto Sans Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    min-height: 0;
+    min-width: 0;
+}
+
+/* Bottom Bar */
+window#waybar {
+    background-color: #000000;
+    border-top: 1px solid #333333;
+    color: #ffffff;
+}
+
+/* Tooltips */
+tooltip {
+    background: #111111;
+    border: 1px solid #333333;
+    padding: 4px;
+}
+
+tooltip label {
+    color: #ffffff;
+    font-family: 'Maple Mono NF', 'JetBrains Mono', 'Noto Sans Mono', monospace;
+    font-size: 12px;
+}
+
+/* ── Workspaces (Default i3bar metrics) ─────────────────────── */
+#workspaces {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+#workspaces button {
+    padding: 0 4px;
+    margin: 1px 1px;
+    min-width: 0;
+    min-height: 0;
+    border: 1px solid #333333;
+    border-radius: 0;
+    background-color: #222222;
+    color: #888888;
+    box-shadow: none;
+    text-shadow: none;
+    transition: none;
+}
+
+#workspaces button:hover {
+    background-color: #333333;
+    border-color: #444444;
+    color: #ffffff;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+    background-color: #285577;
+    border-color: #4c7899;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#workspaces button.urgent {
+    background-color: #900000;
+    border-color: #2f343a;
+    color: #ffffff;
+}
+
+/* ── Mode ──────────────────────────────────────────────────── */
+#mode {
+    background-color: #900000;
+    border: 1px solid #2f343a;
+    color: #ffffff;
+    padding: 0 6px;
+    margin: 1px 1px;
+    min-width: 0;
+}
+
+/* ── Right Modules (i3status uniform style) ────────────────── */
+#idle_inhibitor,
+#pulseaudio,
+#battery,
+#clock {
+    padding: 0 4px;
+    margin: 0;
+    min-width: 0;
+    background: transparent;
+    color: #ffffff;
+}
+
+#tray {
+    padding: 0 4px;
+    margin: 0;
+    min-width: 0;
+    background: transparent;
+}
+
+/* Pipe Separator (|) */
+.custom-separator,
+#custom-separator,
+#custom-separator-1,
+#custom-separator-2,
+#custom-separator-3,
+#custom-separator-4 {
+    color: #444444;
+    padding: 0 2px;
+    margin: 0;
+    min-width: 0;
+}
+
+/* Idle Inhibitor */
+#idle_inhibitor {
+    color: #888888;
+}
+
+#idle_inhibitor.activated {
+    color: #4c7899;
+    font-weight: bold;
+}
+
+/* Audio States */
+#pulseaudio.muted {
+    color: #888888;
+}
+
+/* Battery States */
+#battery {
+    padding-right: 2px;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #55ff55;
+}
+
+#battery.warning:not(.charging) {
+    color: #ffaa00;
+}
+
+#battery.critical:not(.charging) {
+    color: #ff3333;
+    font-weight: bold;
+}
+
+/* Power Profile Daemon */
+#power-profiles-daemon {
+    padding-left: 2px;
+    padding-right: 4px;
+    margin: 0;
+    min-width: 0;
+    background: transparent;
+    color: #888888;
+}
+
+#power-profiles-daemon.performance {
+    color: #ffaa00;
+    font-weight: bold;
+}
+
+#power-profiles-daemon.balanced {
+    color: #38bdf8;
+}
+
+#power-profiles-daemon.power-saver {
+    color: #55ff55;
+}
+
+/* Tray */
+#tray {
+    padding: 0 4px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
+/* ── Laptop Display Custom Scaling (eDP-1) ──────────────────── */
+window#waybar.laptop,
+window#waybar.laptop * {
+    font-size: 14px;
+}
+
+window#waybar.laptop #workspaces button {
+    padding: 0 5px;
+}
+
+window#waybar.laptop #mode {
+    padding: 0 7px;
+}
+
+window#waybar.laptop #idle_inhibitor,
+window#waybar.laptop #pulseaudio,
+window#waybar.laptop #clock {
+    padding: 0 5px;
+}
+
+window#waybar.laptop #battery {
+    padding-left: 5px;
+    padding-right: 2px;
+}
+
+window#waybar.laptop #power-profiles-daemon {
+    padding-left: 2px;
+    padding-right: 5px;
+}
+
+window#waybar.laptop .custom-separator,
+window#waybar.laptop #custom-separator {
+    padding: 0 2px;
+}

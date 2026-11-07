@@ -1,0 +1,10 @@
+# Backups and temporary files
+*.bak
+*.bak.*
+*~
+*.swp
+*.swo
+
+# OS and filesystem artifacts
+.DS_Store
+Thumbs.db

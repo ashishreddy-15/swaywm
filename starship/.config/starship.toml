@@ -1,0 +1,275 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# ============================================================
+# Starship Prompt — Catppuccin Mocha theme
+# Two-line boxed prompt, performance-first design
+#
+# Preview:
+#   ╭─ ~/dev/myapp  main +2!1  🐍3.11  took 5s       11:17
+#   ╰─❯
+#
+# On error:
+#   ╭─ ~/dev/myapp  main ✓  ✘ 127
+#   ╰─❯  (red)
+# ============================================================
+
+# --- Layout ---
+# Backslash line-continuation keeps this readable but generates one line
+format = """
+[╭─](bold green)\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$python\
+$nodejs\
+$rust\
+$golang\
+$java\
+$docker_context\
+$status\
+$cmd_duration\
+$line_break\
+[╰─](bold green)\
+$character\
+"""
+
+# Time shown on the right side — zero cost to left prompt rendering
+right_format = "$time"
+
+# Blank line between prompts — breathing room, easy to find prompt in long output
+add_newline = true
+
+# Kill any module that takes longer than 500ms — keeps prompt snappy
+command_timeout = 500
+
+# ============================================================
+# DIRECTORY
+# ============================================================
+[directory]
+style           = "bold #89b4fa"      # Catppuccin Blue
+truncation_length = 4                  # Show last 4 path segments max
+truncate_to_repo  = true              # Truncate to git root when inside a repo
+read_only         = " 󰌾"
+read_only_style   = "bold red"
+home_symbol       = "~"
+format            = "[ $path]($style)[$read_only]($read_only_style) "
+
+# ============================================================
+# GIT — Branch
+# ============================================================
+[git_branch]
+symbol            = " "              # Nerd Font git icon
+style             = "bold #cba6f7"   # Catppuccin Mauve
+format            = "[$symbol$branch]($style) "
+truncation_length = 25
+truncation_symbol = "…"
+
+# ============================================================
+# GIT — Status (counts, not just icons — you know exactly what's dirty)
+# ============================================================
+[git_status]
+# Format: shows all statuses inline, e.g. "+2!1?3 ⇡1"
+format      = '([$all_status$ahead_behind]($style) )'
+style       = "bold #a6e3a1"         # Catppuccin Green
+up_to_date  = "✓"
+untracked   = "?${count}"
+stashed     = " ${count}"
+modified    = "!${count}"
+staged      = "+${count}"
+renamed     = "»${count}"
+deleted     = "✘${count}"
+ahead       = "⇡${count}"
+behind      = "⇣${count}"
+diverged    = "⇡${ahead_count}⇣${behind_count}"
+conflicted  = "⚡${count}"
+
+# NOTE: git_metrics (line add/remove counts) is intentionally DISABLED —
+# it runs `git diff --shortstat` on every prompt which is slow on large repos.
+
+# ============================================================
+# COMMAND DURATION — Only shown when a command takes > 2 seconds
+# ============================================================
+[cmd_duration]
+min_time          = 2_000            # ms — ignore fast commands
+format            = "[ $duration]($style) "
+style             = "bold #f9e2af"   # Catppuccin Yellow
+show_milliseconds = false
+min_time_to_notify = 10_000          # Desktop notification for > 10s commands
+
+# ============================================================
+# TIME — Shown on the right side, never slows down left prompt
+# ============================================================
+[time]
+disabled    = false
+format      = "[$time]($style)"
+time_format = "%H:%M"
+style       = "dimmed #bac2de"       # Catppuccin Subtext1
+
+# ============================================================
+# CHARACTER — The ❯ prompt symbol; turns red on non-zero exit
+# ============================================================
+[character]
+success_symbol  = "[❯](bold #a6e3a1)"  # Green on success
+error_symbol    = "[❯](bold #f38ba8)"  # Red on failure
+vimcmd_symbol   = "[❮](bold #a6e3a1)"  # Reverse arrow in vim normal mode
+
+# ============================================================
+# EXIT STATUS — Shows exit code inline when command fails
+# ============================================================
+[status]
+disabled = false
+format   = "[$symbol $status ]($style)"
+symbol   = "✘"
+style    = "bold #f38ba8"            # Catppuccin Red
+map_symbol = true                    # Shows signal names (e.g. SIGKILL) not just numbers
+
+# ============================================================
+# USERNAME — Only shown on SSH or when root
+# ============================================================
+[username]
+style_user  = "bold #89b4fa"
+style_root  = "bold red"
+format      = "[$user]($style)[@](dimmed white)"
+show_always = false                  # Hidden on local sessions
+
+# ============================================================
+# HOSTNAME — Only shown on SSH connections
+# ============================================================
+[hostname]
+ssh_only = true
+format   = "[$hostname]($style) "
+style    = "bold #74c7ec"            # Catppuccin Sapphire
+trim_at  = "."
+
+# ============================================================
+# LANGUAGE VERSIONS
+# Each only activates when detect_files/detect_extensions match.
+# version_format strips patch versions to reduce noise.
+# ============================================================
+
+[python]
+symbol           = " "
+style            = "bold #f9e2af"    # Catppuccin Yellow
+format           = '[$symbol${version}( \($virtualenv\))]($style) '
+detect_extensions = ["py"]
+detect_files     = ["requirements.txt", "pyproject.toml", "setup.py", ".python-version", "Pipfile"]
+detect_folders   = [".venv", "venv", ".tox"]
+python_binary    = ["python3", "python"]
+version_format   = "v${major}.${minor}"  # Shows "v3.11" not "v3.11.4"
+
+[nodejs]
+symbol         = " "
+style          = "bold #a6e3a1"
+format         = "[$symbol$version]($style) "
+detect_files   = ["package.json", ".nvmrc", ".node-version"]
+detect_folders = ["node_modules"]
+version_format = "v${major}"         # Shows "v20" not "v20.11.0"
+
+[rust]
+symbol         = "󱘗 "
+style          = "bold #fab387"      # Catppuccin Peach
+format         = "[$symbol$version]($style) "
+detect_files   = ["Cargo.toml"]
+version_format = "v${major}.${minor}"
+
+[golang]
+symbol         = " "
+style          = "bold #89dceb"      # Catppuccin Sky
+format         = "[$symbol$version]($style) "
+detect_files   = ["go.mod", "go.sum", "go.work"]
+version_format = "v${major}.${minor}"
+
+[java]
+symbol         = " "
+style          = "bold #f38ba8"
+format         = "[$symbol$version]($style) "
+detect_files   = ["pom.xml", "build.gradle", "build.gradle.kts", ".java-version"]
+version_format = "v${major}"
+
+[docker_context]
+symbol       = " "
+style        = "bold #89b4fa"
+format       = "[$symbol$context]($style) "
+only_with_files = true               # Only show when docker-compose/Dockerfile exists
+detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
+
+# ============================================================
+# DISABLED MODULES
+# Explicitly disabled = faster startup (starship skips them entirely)
+# Re-enable any you need by removing its block or setting disabled = false
+# ============================================================
+
+[aws]           # Runs `aws sts` or reads ~/.aws — slow
+disabled = true
+[gcloud]        # Reads gcloud config — can be slow
+disabled = true
+[kubernetes]    # Runs kubectl — network call, very slow
+disabled = true
+[terraform]     # Reads .terraform — slow
+disabled = true
+[package]       # Reads package.json/Cargo.toml versions — redundant with lang modules
+disabled = true
+[battery]       # Polling-based
+disabled = true
+[git_metrics]   # Runs git diff --shortstat — slow on large repos
+disabled = true
+[conda]         # Enable if you use conda: disabled = false
+disabled = true
+[vcsh]
+disabled = true
+[fossil_branch]
+disabled = true
+[hg_branch]
+disabled = true
+[singularity]
+disabled = true
+[vagrant]
+disabled = true
+[buf]
+disabled = true
+[cmake]
+disabled = true
+[crystal]
+disabled = true
+[dart]
+disabled = true
+[deno]
+disabled = true
+[dotnet]
+disabled = true
+[elixir]
+disabled = true
+[elm]
+disabled = true
+[erlang]
+disabled = true
+[haskell]
+disabled = true
+[helm]
+disabled = true
+[julia]
+disabled = true
+[kotlin]
+disabled = true
+[lua]
+disabled = true
+[nim]
+disabled = true
+[ocaml]
+disabled = true
+[perl]
+disabled = true
+[php]
+disabled = true
+[ruby]
+disabled = true
+[scala]
+disabled = true
+[swift]
+disabled = true
+[zig]
+disabled = true
+[vlang]
+disabled = true

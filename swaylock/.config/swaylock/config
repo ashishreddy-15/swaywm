@@ -1,0 +1,10 @@
+# Swaylock configuration
+# Overrides /etc/swaylock/config
+# man swaylock for all options
+
+# Solid black — no wallpaper on lock screen
+color=000000
+
+# Show indicator on blank screen too (not only on keypress)
+show-failed-attempts
+indicator-idle-visible

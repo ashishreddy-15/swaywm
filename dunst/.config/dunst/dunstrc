@@ -1,0 +1,118 @@
+# ============================================================
+# Dunst Configuration
+# man 5 dunst
+# ============================================================
+
+[global]
+    ### Display & Monitor ###
+    # Display notifications on the monitor with mouse focus
+    follow = mouse
+    # Fallback monitor if follow is not set or unavailable
+    monitor = 0
+
+    ### Geometry ###
+    # Dynamic width between 300 and 420px
+    width = (300, 420)
+    # Dynamic height up to 300px
+    height = (0, 300)
+    # Notification placement: top-right corner
+    origin = top-right
+    # Offset from screen edges (horizontal, vertical)
+    offset = (20, 20)
+    # Per-display scaling (0 = auto-detect)
+    scale = 0
+    # Maximum number of visible notifications
+    notification_limit = 6
+    # Indicate hidden notifications count
+    indicate_hidden = yes
+
+    ### Spacing & Borders ###
+    # Vertical padding inside notification
+    padding = 10
+    # Horizontal padding inside notification
+    horizontal_padding = 12
+    # Spacing between icon and text
+    text_icon_padding = 10
+    # Border width around notifications
+    frame_width = 2
+    # Default border frame color (matches Sway / Waybar focused accent)
+    frame_color = "#4c7899"
+    # Gap between notifications (requires compositor)
+    gap_size = 6
+    # Separator height between stacked notifications
+    separator_height = 2
+    separator_color = frame
+    # Corner radius (0 for sharp edges matching i3/Sway default)
+    corner_radius = 4
+    corners = all
+
+    ### Progress Bar ###
+    progress_bar = true
+    progress_bar_height = 8
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 300
+    progress_bar_corner_radius = 2
+
+    ### Typography ###
+    # Font matches the system monospace font
+    font = Maple Mono NF 11.5
+    line_height = 2
+    markup = full
+    # %s = summary (title), %b = body
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    ellipsize = middle
+    ignore_newline = no
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = yes
+
+    ### Icons ###
+    enable_recursive_icon_lookup = true
+    icon_theme = "Adwaita, hicolor"
+    icon_position = left
+    min_icon_size = 24
+    max_icon_size = 64
+    icon_corner_radius = 2
+
+    ### History ###
+    sticky_history = yes
+    history_length = 20
+
+    ### Wayland Settings ###
+    layer = top
+    force_xwayland = false
+
+    ### Mouse Actions ###
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+# ── Urgency Levels ──────────────────────────────────────────
+
+[urgency_low]
+    # Default foot terminal dark grey background
+    background = "#242424"
+    foreground = "#888888"
+    frame_color = "#444444"
+    timeout = 5
+    default_icon = dialog-information
+
+[urgency_normal]
+    # Default foot terminal dark grey background
+    background = "#242424"
+    foreground = "#ffffff"
+    frame_color = "#4c7899"
+    timeout = 8
+    default_icon = dialog-information
+
+[urgency_critical]
+    # Default foot terminal dark grey background with foot red accent frame
+    background = "#242424"
+    foreground = "#ffffff"
+    frame_color = "#f62b5a"
+    timeout = 0
+    default_icon = dialog-warning
