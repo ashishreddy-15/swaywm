@@ -203,6 +203,7 @@ cd ~/swaywm
 ./install.sh --dry-run          # see what it would do
 ./install.sh                    # do it
 ./install.sh --with-snapshots   # ...and set up btrfs snapshots (sudo)
+./install.sh --with-sddm        # ...and theme the login screen (sudo)
 ```
 
 [`install.sh`](install.sh) is safe to re-run; each step checks first:
@@ -237,6 +238,26 @@ Snapshots live on the same disk: they undo mistakes, they are **not** a backup a
 
 ---
 
+## 🔑 Login Screen (SDDM)
+
+[`setup/sddm.sh`](setup/sddm.sh) (run with `--with-sddm`, or on its own) replaces Fedora's stock sway greeter with the `mono` theme from [`setup/sddm/`](setup/sddm/):
+
+* **Look**: solid black, Maple Mono clock and date, the user's name, and a password field styled like the rofi popup (surface fill, hairline border, flat accent edge when focused, red after a wrong password, amber note when Caps Lock is on). A waybar-style strip at the bottom has `suspend · reboot · shutdown`, plus the session name if more than one is installed.
+* **Screens**: the form shows only on the largest screen (the Samsung when docked); the others stay black. With the lid closed and a monitor connected, the laptop panel is turned off.
+* **Greeter compositor**: [`sway-greeter.conf`](setup/sddm/sway-greeter.conf) uses the same output layout, cursor, key repeat, Caps→Esc and touchpad settings as the desktop.
+* **Keys**: Enter logs in, Esc clears, Up/Down switches user, Tab moves to the buttons.
+
+Nothing package-owned is edited: a drop-in at `/etc/sddm.conf.d/10-swaywm.conf` selects the theme and greeter config.
+
+```bash
+sddm-greeter-qt6 --test-mode --theme ~/swaywm/setup/sddm/theme/mono   # preview in a window
+./setup/sddm.sh --uninstall                                          # back to the stock greeter
+```
+
+If the greeter ever fails to start: Ctrl+Alt+F3, log in, `sudo rm /etc/sddm.conf.d/10-swaywm.conf && sudo systemctl restart sddm`.
+
+---
+
 ## 📂 Repository Layout
 
 ```
@@ -248,7 +269,12 @@ Snapshots live on the same disk: they undo mistakes, they are **not** a backup a
 ├── install.sh                # bootstrap a fresh Fedora install
 ├── setup/                    # system-level, not stowed
 │   ├── snapshots.sh
-│   └── snapper.actions
+│   ├── snapper.actions
+│   ├── sddm.sh               # installs the login screen below
+│   └── sddm/
+│       ├── 10-swaywm.conf    # /etc/sddm.conf.d drop-in
+│       ├── sway-greeter.conf # greeter compositor config
+│       └── theme/mono/       # Main.qml, TextButton.qml, theme.conf, metadata.desktop
 ├── bash/
 │   ├── .bashrc
 │   ├── .bash_profile

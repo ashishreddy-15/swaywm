@@ -23,7 +23,8 @@ fill is `bg`.
 sway (`client.*`, wallpaper) · waybar (`@define-color`) · dunst · rofi (variables
 in `config.rasi`) · foot (`[colors-dark]`) · swaylock · starship · btop
 (`themes/mono.theme`) · nvim (`colors/mono.lua`) · mpv (OSD, subtitles,
-`script-opts/osc.conf`) · zathura (`zathurarc`) · fzf (`bash/.bashrc.d/03-fzf.sh`).
+`script-opts/osc.conf`) · zathura (`zathurarc`) · fzf (`bash/.bashrc.d/03-fzf.sh`) · sddm login
+screen (`setup/sddm/theme/mono/theme.conf`, installed by `setup/sddm.sh`).
 
 Not tracked by stow: `gsettings set org.gnome.desktop.interface color-scheme prefer-dark`
 and `gtk-theme Adwaita-dark` for GTK apps.
