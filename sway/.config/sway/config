@@ -58,10 +58,12 @@ client.background       #0f110d
 default_border pixel 2
 default_floating_border pixel 2
 
-# Small gaps between windows; a lone window fills the screen with no
-# gap or border (smart_gaps + smart_borders)
+# 4 px everywhere: between windows, around the screen edge, and above the
+# bar island (which also sits 4 px off the bottom edge). Gaps stay on for a
+# lone window too, so it lines up with the island instead of touching it.
+# A lone window still hides its border (smart_borders).
 gaps inner 4
-smart_gaps on
+smart_gaps off
 smart_borders on
 
 # Title bars (only shown in tabbed/stacked layouts): roomier, centred,
