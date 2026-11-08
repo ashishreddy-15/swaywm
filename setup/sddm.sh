@@ -27,10 +27,21 @@ for a in "$@"; do
     esac
 done
 
-if (( ! DRY )) && [[ $EUID -ne 0 ]]; then exec sudo "$0" "$@"; fi
-
 HERE="$(cd "$(dirname "$0")" && pwd)"
 SRC="$HERE/sddm"
+
+# Validate before sudo. `sway -C` still opens a backend; headless needs no
+# display, so this works from a TTY, over ssh and as root.
+# Skipped on the second pass after `exec sudo` below; it already ran.
+if (( ! UNINSTALL )) && [[ $EUID -ne 0 || -z ${SUDO_USER:-} ]]; then
+    command -v sddm-greeter-qt6 >/dev/null || { echo "sddm-greeter-qt6 not found; is sddm installed?" >&2; exit 1; }
+    echo "==> Checking the greeter sway config"
+    env -u DISPLAY -u WAYLAND_DISPLAY WLR_BACKENDS=headless WLR_LIBINPUT_NO_DEVICES=1 \
+        sway -C -c "$SRC/sway-greeter.conf" >/dev/null
+fi
+
+if (( ! DRY )) && [[ $EUID -ne 0 ]]; then exec sudo "$0" "$@"; fi
+
 USER_NAME="${SUDO_USER:-$(id -un)}"
 USER_HOME="$(getent passwd "$USER_NAME" | cut -d: -f6)"
 
@@ -47,11 +58,6 @@ if (( UNINSTALL )); then
     echo "==> Done. The stock greeter returns at the next login screen."
     exit 0
 fi
-
-command -v sddm-greeter-qt6 >/dev/null || { echo "sddm-greeter-qt6 not found; is sddm installed?" >&2; exit 1; }
-
-echo "==> Checking the greeter sway config"
-sway -C -c "$SRC/sway-greeter.conf" >/dev/null
 
 echo "==> Theme -> $THEME_DIR"
 run rm -rf "$THEME_DIR"
