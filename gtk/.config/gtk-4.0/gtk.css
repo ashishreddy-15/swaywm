@@ -1,0 +1,63 @@
+/* GTK 4 / libadwaita colours from the wallpaper palette (see colors.md).
+ *
+ * libadwaita 1.6+ reads these CSS variables; user CSS loads after the
+ * theme, so they override Adwaita's greys and blue. Only dark mode is
+ * changed: light mode (appearance menu, $mod+Shift+a) stays stock Adwaita.
+ * Shapes are left alone; this file is colour only.
+ */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* accent: focus, selection, suggested buttons. Text on it is bg. */
+        --accent-bg-color: #6fa3b8;
+        --accent-fg-color: #0f110d;
+        --accent-color: #6fa3b8;
+
+        --destructive-bg-color: #e05555;
+        --destructive-fg-color: #0f110d;
+        --destructive-color: #e05555;
+
+        --warning-bg-color: #db892d;
+        --warning-fg-color: #0f110d;
+        --warning-color: #db892d;
+
+        --error-bg-color: #e05555;
+        --error-fg-color: #0f110d;
+        --error-color: #e05555;
+
+        /* green has no palette role; this is the terminal's ANSI green */
+        --success-bg-color: #8fb98b;
+        --success-fg-color: #0f110d;
+        --success-color: #8fb98b;
+
+        /* surfaces: content (view) is bg, the window around it is surface */
+        --window-bg-color: #161a14;
+        --window-fg-color: #e6e8e1;
+        --view-bg-color: #0f110d;
+        --view-fg-color: #e6e8e1;
+
+        --headerbar-bg-color: #20251d;
+        --headerbar-fg-color: #e6e8e1;
+        --headerbar-border-color: #2e342a;
+        --headerbar-backdrop-color: #161a14;
+
+        --sidebar-bg-color: #20251d;
+        --sidebar-fg-color: #e6e8e1;
+        --sidebar-backdrop-color: #161a14;
+        --sidebar-border-color: #2e342a;
+        --secondary-sidebar-bg-color: #1b1f18;
+        --secondary-sidebar-fg-color: #e6e8e1;
+        --secondary-sidebar-backdrop-color: #161a14;
+        --secondary-sidebar-border-color: #2e342a;
+
+        --card-bg-color: rgb(255 255 255 / 4%);
+        --card-fg-color: #e6e8e1;
+        --dialog-bg-color: #222820;
+        --dialog-fg-color: #e6e8e1;
+        --popover-bg-color: #222820;
+        --popover-fg-color: #e6e8e1;
+        --thumbnail-bg-color: #222820;
+        --thumbnail-fg-color: #e6e8e1;
+
+        --border-color: #2e342a;
+    }
+}
