@@ -4,7 +4,7 @@ Keyboard-driven Wayland desktop on **Sway**, managed with **GNU Stow**. Built fo
 
 ![Desktop](docs/desktop.png)
 
-Monochrome greys with one blue-grey accent (`#7aa2c8`) for focus only. Palette in [`colors.md`](colors.md).
+Built around one wallpaper (horizon at dusk): olive-tinted greys from its ground, a sky-blue accent (`#6fa3b8`) for focus only, and horizon amber for warnings. Palette in [`colors.md`](colors.md).
 
 ## Install (fresh Fedora)
 

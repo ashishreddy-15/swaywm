@@ -5,9 +5,8 @@ dusk): olive-tinted greys from the ground, the accent from the sky, amber
 from the horizon. Hex values are copied into each config by hand; to change
 the palette, search the repo for the old hex and replace it.
 
-**Migration in progress (`feat/ui-overhaul`).** Using the new palette:
-waybar, dunst, wallpaper. Still on the old one (right column): everything
-else, to be moved app by app.
+Applied everywhere in this repo. The **Old** column is the monochrome palette
+it replaced, kept for reference. GTK apps still use Adwaita's own greys.
 
 | Name      | Hex       | Old       | Use |
 | :-------- | :-------- | :-------- | :-- |
