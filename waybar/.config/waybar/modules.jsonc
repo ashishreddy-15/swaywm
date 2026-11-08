@@ -82,10 +82,14 @@
         }
     },
 
-    // Tray behind a quiet ··· handle; hovering slides the icons out
+    // Tray behind a quiet ··· handle. Click toggles it: open stays open
+    // (for an icon you need to watch), click again to hide. waybar's
+    // click-to-reveal turns off hover reveal, so it is click only.
+    // Starts hidden whenever waybar starts.
     "group/tray": {
         "orientation": "inherit",
         "drawer": {
+            "click-to-reveal": true,
             "transition-duration": 250,
             "children-class": "tray-hidden",
             "transition-left-to-right": false
@@ -95,6 +99,6 @@
 
     "custom/tray-handle": {
         "format": "···",
-        "tooltip": false
+        "tooltip-format": "Show / hide tray"
     }
 }
