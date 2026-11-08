@@ -19,9 +19,9 @@ export FZF_DEFAULT_OPTS="
     --bind='ctrl-d:preview-page-down'
     --bind='ctrl-a:select-all'
     --bind='ctrl-y:execute-silent(echo -n {+} | wl-copy)'
-    --color=fg:#e6e6e6,hl:#7aa2c8,fg+:#e6e6e6,bg+:#222222,hl+:#7aa2c8,gutter:-1
-    --color=info:#888888,prompt:#7aa2c8,pointer:#7aa2c8,marker:#7aa2c8,spinner:#888888,header:#888888
-    --color=border:#333333,separator:#333333,scrollbar:#333333
+    --color=fg:#e6e8e1,hl:#6fa3b8,fg+:#e6e8e1,bg+:#222820,hl+:#6fa3b8,gutter:-1
+    --color=info:#8c9384,prompt:#6fa3b8,pointer:#6fa3b8,marker:#6fa3b8,spinner:#8c9384,header:#8c9384
+    --color=border:#2e342a,separator:#2e342a,scrollbar:#2e342a
 "
 
 # --- fzf default command: use fd if available, else find ---
