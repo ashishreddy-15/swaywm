@@ -160,7 +160,7 @@ Rectangle {
                 color: config.surface
                 border.width: 1
                 border.color: config.border
-                radius: 4
+                radius: 0
 
                 TextInput {
                     id: password

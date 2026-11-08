@@ -87,7 +87,9 @@ fi
 
 # ── 4. Dotfiles (stow) ──────────────────────────────────────
 step "Linking dotfiles with stow"
-mapfile -t STOW_PKGS < <(cd "$REPO" && for d in */; do d=${d%/}; [[ $d == setup ]] || echo "$d"; done)
+# Every top-level directory is a package, except setup/ (system scripts)
+# and docs/ (README assets)
+mapfile -t STOW_PKGS < <(cd "$REPO" && for d in */; do d=${d%/}; [[ $d == setup || $d == docs ]] || echo "$d"; done)
 echo "    packages: ${STOW_PKGS[*]}"
 
 # Move real files that would block stow out of the way (never delete).
@@ -115,7 +117,12 @@ fi
 # ── 5. GTK / desktop settings (not files, so not stowed) ────
 step "GTK dark theme and font smoothing"
 run gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-run gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
+# adw-gtk3 lets GTK 3 apps take the palette from gtk/.config/gtk-3.0/gtk.css
+if [[ -d /usr/share/themes/adw-gtk3-dark ]]; then
+    run gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
+else
+    run gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
+fi
 run gsettings set org.gnome.desktop.interface font-antialiasing rgba
 
 # ── 6. Default applications ─────────────────────────────────

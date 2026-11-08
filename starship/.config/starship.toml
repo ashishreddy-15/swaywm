@@ -16,7 +16,7 @@
 # --- Layout ---
 # Backslash line-continuation keeps this readable but generates one line
 format = """
-[╭─](bold #bbbbbb)\
+[╭─](bold #bbc0b5)\
 $username\
 $hostname\
 $directory\
@@ -31,7 +31,7 @@ $docker_context\
 $status\
 $cmd_duration\
 $line_break\
-[╰─](bold #bbbbbb)\
+[╰─](bold #bbc0b5)\
 $character\
 """
 
@@ -48,7 +48,7 @@ command_timeout = 500
 # DIRECTORY
 # ============================================================
 [directory]
-style           = "bold #e6e6e6"
+style           = "bold #e6e8e1"
 truncation_length = 4                  # Show last 4 path segments max
 truncate_to_repo  = true              # Truncate to git root when inside a repo
 read_only         = " 󰌾"
@@ -61,7 +61,7 @@ format            = "[ $path]($style)[$read_only]($read_only_style) "
 # ============================================================
 [git_branch]
 symbol            = " "              # Nerd Font git icon
-style             = "bold #888888"
+style             = "bold #8c9384"
 format            = "[$symbol$branch]($style) "
 truncation_length = 25
 truncation_symbol = "…"
@@ -72,7 +72,7 @@ truncation_symbol = "…"
 [git_status]
 # Format: shows all statuses inline, e.g. "+2!1?3 ⇡1"
 format      = '([$all_status$ahead_behind]($style) )'
-style       = "bold #e0a030"
+style       = "bold #db892d"
 up_to_date  = "✓"
 untracked   = "?${count}"
 stashed     = " ${count}"
@@ -94,7 +94,7 @@ conflicted  = "⚡${count}"
 [cmd_duration]
 min_time          = 2_000            # ms — ignore fast commands
 format            = "[ $duration]($style) "
-style             = "bold #888888"
+style             = "bold #8c9384"
 show_milliseconds = false
 min_time_to_notify = 10_000          # Desktop notification for > 10s commands
 
@@ -105,15 +105,15 @@ min_time_to_notify = 10_000          # Desktop notification for > 10s commands
 disabled    = false
 format      = "[$time]($style)"
 time_format = "%H:%M"
-style       = "#555555"
+style       = "#5a6152"
 
 # ============================================================
 # CHARACTER — The ❯ prompt symbol; turns red on non-zero exit
 # ============================================================
 [character]
-success_symbol  = "[❯](bold #7aa2c8)"
+success_symbol  = "[❯](bold #6fa3b8)"
 error_symbol    = "[❯](bold #e05555)"
-vimcmd_symbol   = "[❮](bold #7aa2c8)"  # Reverse arrow in vim normal mode
+vimcmd_symbol   = "[❮](bold #6fa3b8)"  # Reverse arrow in vim normal mode
 
 # ============================================================
 # EXIT STATUS — Shows exit code inline when command fails
@@ -129,7 +129,7 @@ map_symbol = true                    # Shows signal names (e.g. SIGKILL) not jus
 # USERNAME — Only shown on SSH or when root
 # ============================================================
 [username]
-style_user  = "bold #e6e6e6"
+style_user  = "bold #e6e8e1"
 style_root  = "bold red"
 format      = "[$user]($style)[@](dimmed white)"
 show_always = false                  # Hidden on local sessions
@@ -140,7 +140,7 @@ show_always = false                  # Hidden on local sessions
 [hostname]
 ssh_only = true
 format   = "[$hostname]($style) "
-style    = "bold #888888"
+style    = "bold #8c9384"
 trim_at  = "."
 
 # ============================================================
@@ -151,7 +151,7 @@ trim_at  = "."
 
 [python]
 symbol           = " "
-style            = "bold #888888"
+style            = "bold #8c9384"
 format           = '[$symbol${version}( \($virtualenv\))]($style) '
 detect_extensions = ["py"]
 detect_files     = ["requirements.txt", "pyproject.toml", "setup.py", ".python-version", "Pipfile"]
@@ -161,7 +161,7 @@ version_format   = "v${major}.${minor}"  # Shows "v3.11" not "v3.11.4"
 
 [nodejs]
 symbol         = " "
-style          = "bold #888888"
+style          = "bold #8c9384"
 format         = "[$symbol$version]($style) "
 detect_files   = ["package.json", ".nvmrc", ".node-version"]
 detect_folders = ["node_modules"]
@@ -169,28 +169,28 @@ version_format = "v${major}"         # Shows "v20" not "v20.11.0"
 
 [rust]
 symbol         = "󱘗 "
-style          = "bold #888888"
+style          = "bold #8c9384"
 format         = "[$symbol$version]($style) "
 detect_files   = ["Cargo.toml"]
 version_format = "v${major}.${minor}"
 
 [golang]
 symbol         = " "
-style          = "bold #888888"
+style          = "bold #8c9384"
 format         = "[$symbol$version]($style) "
 detect_files   = ["go.mod", "go.sum", "go.work"]
 version_format = "v${major}.${minor}"
 
 [java]
 symbol         = " "
-style          = "bold #888888"
+style          = "bold #8c9384"
 format         = "[$symbol$version]($style) "
 detect_files   = ["pom.xml", "build.gradle", "build.gradle.kts", ".java-version"]
 version_format = "v${major}"
 
 [docker_context]
 symbol       = " "
-style        = "bold #888888"
+style        = "bold #8c9384"
 format       = "[$symbol$context]($style) "
 only_with_files = true               # Only show when docker-compose/Dockerfile exists
 detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]

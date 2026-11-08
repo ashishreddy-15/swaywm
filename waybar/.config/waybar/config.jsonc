@@ -1,9 +1,15 @@
 // -*- mode: jsonc -*-
-// Clean, minimal i3bar-style Waybar configuration with per-display sizing.
-// Module settings live in modules.jsonc; each bar below only sets what
-// differs between the two screens (height, tray size).
+// Island bar: one fixed-width block centred at the bottom of each screen.
+//
+// The waybar window *is* the island: side margins narrow it to a fixed
+// width, so it never resizes when a state word appears, and the clock in
+// modules-center always sits at the exact centre of the screen.
+//   island width = output width - margin-left - margin-right
+// Module settings live in modules.jsonc; each bar below only sets size.
+// Palette: colors.md. If a monitor's resolution changes, recompute the
+// margins: (output width - island width) / 2.
 [
-    // ── External Displays (HDMI, DisplayPort, USB-C) ───────────
+    // ── External display: 2560 wide → 720 px island ─────────────
     {
         "include": ["~/.config/waybar/modules.jsonc"],
         "output": "!eDP-1",
@@ -11,22 +17,19 @@
         "layer": "bottom",
         "position": "bottom",
         "height": 24,
+        "margin-bottom": 4,
+        "margin-left": 920,
+        "margin-right": 920,
         "spacing": 0,
 
         "modules-left": ["sway/workspaces", "sway/mode"],
-        "modules-center": [],
-        "modules-right": [
-            "idle_inhibitor", "custom/separator#1",
-            "pulseaudio", "custom/separator#2",
-            "battery", "power-profiles-daemon", "custom/separator#3",
-            "clock", "custom/separator#4",
-            "tray"
-        ],
+        "modules-center": ["clock"],
+        "modules-right": ["custom/awake", "power-profiles-daemon", "pulseaudio", "battery", "group/tray"],
 
-        "tray": { "icon-size": 15, "spacing": 6 }
+        "tray": { "icon-size": 14, "spacing": 8 }
     },
 
-    // ── Laptop Display (eDP-1) ──────────────────────────────────
+    // ── Laptop display: 1920 wide → 840 px island, 14 px text ───
     {
         "include": ["~/.config/waybar/modules.jsonc"],
         "output": "eDP-1",
@@ -34,18 +37,15 @@
         "layer": "bottom",
         "position": "bottom",
         "height": 28,
+        "margin-bottom": 4,
+        "margin-left": 540,
+        "margin-right": 540,
         "spacing": 0,
 
         "modules-left": ["sway/workspaces", "sway/mode"],
-        "modules-center": [],
-        "modules-right": [
-            "idle_inhibitor", "custom/separator#1",
-            "pulseaudio", "custom/separator#2",
-            "battery", "power-profiles-daemon", "custom/separator#3",
-            "clock", "custom/separator#4",
-            "tray"
-        ],
+        "modules-center": ["clock"],
+        "modules-right": ["custom/awake", "power-profiles-daemon", "pulseaudio", "battery", "group/tray"],
 
-        "tray": { "icon-size": 17, "spacing": 7 }
+        "tray": { "icon-size": 16, "spacing": 9 }
     }
 ]

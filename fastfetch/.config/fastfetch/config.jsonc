@@ -1,6 +1,6 @@
 // fastfetch: same look as waybar/rofi. No logo; labelled hairline sections,
 // muted keys, plain values, one accent edge on the title. Palette: see colors.md.
-// Colours are 24-bit: dim #555555, border #333333, muted #888888, fg #e6e6e6, accent #7aa2c8.
+// Colours are 24-bit: dim #5a6152, border #2e342a, muted #8c9384, fg #e6e8e1, accent #6fa3b8.
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
   "logo": { "type": "none" },
