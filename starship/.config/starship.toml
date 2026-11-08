@@ -16,7 +16,7 @@
 # --- Layout ---
 # Backslash line-continuation keeps this readable but generates one line
 format = """
-[╭─](bold green)\
+[╭─](bold #bbbbbb)\
 $username\
 $hostname\
 $directory\
@@ -31,7 +31,7 @@ $docker_context\
 $status\
 $cmd_duration\
 $line_break\
-[╰─](bold green)\
+[╰─](bold #bbbbbb)\
 $character\
 """
 

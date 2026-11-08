@@ -19,6 +19,17 @@ by hand; to change the palette, search the repo for the old hex and replace it.
 Rules: no other hues. "OK" states use plain `fg`. Text on an `accent` or `red`
 fill is `bg`.
 
+**Exception: the terminal's ANSI palette** (foot `[colors-dark]`). CLI tools
+(eza/`LS_COLORS`, git diff, …) tell things apart by ANSI colour, so green,
+magenta and cyan get muted hues there instead of greys. They are used nowhere
+else.
+
+| ANSI slot | Regular   | Bright    |
+| :-------- | :-------- | :-------- |
+| green     | `#8fb98b` | `#a3c99f` |
+| magenta   | `#b294bb` | `#c4a7cc` |
+| cyan      | `#7fbfb5` | `#95cfc6` |
+
 ## Where it is applied
 sway (`client.*`, wallpaper) · waybar (`@define-color`) · dunst · rofi (variables
 in `config.rasi`) · foot (`[colors-dark]`) · swaylock · starship · btop
