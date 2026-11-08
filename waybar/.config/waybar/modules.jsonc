@@ -45,7 +45,10 @@
         },
         "format": "BAT {capacity}%",
         "format-charging": "BAT {capacity}% [CHR]",
-        "format-plugged": "BAT {capacity}% [AC]",
+        // [AC] = plugged in but holding at the charge limit (the usual state);
+        // dimmed so [CHR] (actually charging) stands out. Alpha instead of a
+        // hex keeps the palette in style.css only.
+        "format-plugged": "BAT {capacity}% <span alpha='60%'>[AC]</span>",
         "format-alt": "BAT {time}",
         "tooltip-format": "{timeTo}, {capacity}%\nPower draw: {power:0.2f}W"
     },

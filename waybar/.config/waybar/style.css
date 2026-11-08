@@ -69,12 +69,18 @@ tooltip label {
     color: @fg;
 }
 
-#workspaces button.focused,
-#workspaces button.active {
+#workspaces button.focused {
     background-color: @accent;
     border-color: @accent;
     color: @bg;
     font-weight: bold;
+}
+
+/* Shown on this monitor while another monitor has focus: brighter text and
+   a flat accent line underneath (inset shadow, so the size doesn't change) */
+#workspaces button.visible:not(.focused) {
+    color: @fg;
+    box-shadow: inset 0 -2px @accent;
 }
 
 #workspaces button.urgent {
@@ -83,10 +89,10 @@ tooltip label {
     color: @bg;
 }
 
-/* ── Mode ──────────────────────────────────────────────────── */
+/* ── Mode (amber: red is reserved for urgent/critical) ─────── */
 #mode {
-    background-color: @red;
-    border: 1px solid @red;
+    background-color: @amber;
+    border: 1px solid @amber;
     color: @bg;
     padding: 0 6px;
     margin: 1px 1px;
@@ -105,33 +111,22 @@ tooltip label {
     color: @fg;
 }
 
-#tray {
-    padding: 0 4px;
-    margin: 0;
-    min-width: 0;
-    background: transparent;
-}
-
-/* Pipe Separator (|) */
-.custom-separator,
-#custom-separator,
-#custom-separator-1,
-#custom-separator-2,
-#custom-separator-3,
-#custom-separator-4 {
+/* Pipe Separator (|): custom/separator#N all share the #custom-separator id */
+#custom-separator {
     color: @dim;
     padding: 0 2px;
     margin: 0;
     min-width: 0;
 }
 
-/* Idle Inhibitor: dim while off, accent while on */
+/* Idle Inhibitor: muted while off, amber while it blocks sleep
+   (accent is focus-only) */
 #idle_inhibitor {
-    color: @dim;
+    color: @muted;
 }
 
 #idle_inhibitor.activated {
-    color: @accent;
+    color: @amber;
     font-weight: bold;
 }
 
@@ -154,32 +149,31 @@ tooltip label {
     font-weight: bold;
 }
 
-/* Power Profile Daemon */
+/* Power Profile Daemon: balanced is the normal state, so it is quiet;
+   power-saver in full fg stands out; amber marks performance (drains faster) */
 #power-profiles-daemon {
     padding-left: 4px;
     padding-right: 4px;
     margin: 0;
     min-width: 0;
     background: transparent;
+    color: @fg;
+}
+
+#power-profiles-daemon.balanced {
     color: @muted;
 }
 
 #power-profiles-daemon.performance {
-    color: @accent;
-    font-weight: bold;
-}
-
-#power-profiles-daemon.balanced {
-    color: @fg;
-}
-
-#power-profiles-daemon.power-saver {
-    color: @muted;
+    color: @amber;
 }
 
 /* Tray */
 #tray {
     padding: 0 4px;
+    margin: 0;
+    min-width: 0;
+    background: transparent;
 }
 
 #tray > .passive {
@@ -220,7 +214,6 @@ window#waybar.laptop #power-profiles-daemon {
     padding-right: 5px;
 }
 
-window#waybar.laptop .custom-separator,
 window#waybar.laptop #custom-separator {
     padding: 0 2px;
 }
