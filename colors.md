@@ -6,7 +6,8 @@ from the horizon. Hex values are copied into each config by hand; to change
 the palette, search the repo for the old hex and replace it.
 
 Applied everywhere in this repo. The **Old** column is the monochrome palette
-it replaced, kept for reference. GTK apps still use Adwaita's own greys.
+it replaced, kept for reference. GTK apps get it through the `gtk` package
+(libadwaita variables for GTK 4, adw-gtk3-dark named colours for GTK 3).
 
 | Name      | Hex       | Old       | Use |
 | :-------- | :-------- | :-------- | :-- |
