@@ -69,8 +69,9 @@ titlebar_border_thickness 1
 title_align center
 
 # Cursor: same theme and size as GTK apps (gsettings), so the pointer
-# does not change between sway, Wayland and Xwayland windows
-seat seat0 xcursor_theme Adwaita 24
+# does not change between sway, Wayland and Xwayland windows. The values
+# live in gsettings; change them with the appearance menu ($mod+Shift+a).
+exec_always ~/.config/sway/scripts/appearance.sh --sync
 
 # ── Clamshell Mode (Laptop Lid Switch) ──────────────────────
 # --reload re-runs the binding on `reload`, so the panel stays off if the

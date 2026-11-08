@@ -74,6 +74,7 @@ stow -D -v sway    # unlink
 | `$mod + Shift + Return` | Drop-down terminal |
 | `$mod + c` | Calculator |
 | `$mod + .` | Emoji picker |
+| `$mod + Shift + a` | Appearance: GTK theme, dark/light, icons, cursor, font |
 | `$mod + grave` | Last notification (`Shift`: dismiss all) |
 | `$mod + Shift + n` | Do not disturb |
 | `$mod + Shift + r` | Reload config |
