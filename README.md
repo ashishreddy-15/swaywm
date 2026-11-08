@@ -222,8 +222,10 @@ cd ~/swaywm
 
 [`setup/snapshots.sh`](setup/snapshots.sh) (run with `--with-snapshots`, or on its own) sets up:
 
-* **`/` (root)**: a pre/post snapshot pair around every `dnf` transaction, via the dnf5 actions plugin ([`setup/snapper.actions`](setup/snapper.actions), taken from `libdnf5-actions(8)`). Keeps the last 20.
+* **`/` (root)**: a pre/post snapshot pair around every `dnf` transaction, via the dnf5 actions plugin ([`setup/snapper.actions`](setup/snapper.actions), based on `libdnf5-actions(8)`). Keeps the last 10 pairs.
 * **`/home`**: hourly snapshots; keeps 12 hourly, 7 daily, 4 weekly.
+
+[`setup/backup-usb.sh`](setup/backup-usb.sh) copies those snapshots to an encrypted USB stick (`btrfs send/receive`, incremental after the first run, last 8 kept). Setup, routine backups and every restore scenario in plain words: **[docs/snapshots.md](docs/snapshots.md)**.
 
 ```bash
 snapper -c root list                       # what dnf changed, as numbered pairs
@@ -234,7 +236,7 @@ cp /home/.snapshots/<N>/snapshot/ashish/<file> ~/   # recover a deleted/overwrit
 ```
 
 `/boot` is a separate ext4 partition, so roll back updates with `undochange` (file level), not by booting a snapshot.
-Snapshots live on the same disk: they undo mistakes, they are **not** a backup against disk failure or a lost laptop.
+Snapshots live on the same disk: they undo mistakes, they are **not** a backup against disk failure or a lost laptop. That is what the USB copy is for.
 
 ---
 
@@ -267,9 +269,12 @@ If the greeter ever fails to start: Ctrl+Alt+F3, log in, `sudo rm /etc/sddm.conf
 ├── .stowrc
 ├── colors.md                 # shared palette (hex copied into each config)
 ├── install.sh                # bootstrap a fresh Fedora install
+├── docs/
+│   └── snapshots.md          # snapshot + USB backup guide, restore scenarios
 ├── setup/                    # system-level, not stowed
 │   ├── snapshots.sh
 │   ├── snapper.actions
+│   ├── backup-usb.sh         # copy snapshots to an encrypted USB stick
 │   ├── sddm.sh               # installs the login screen below
 │   └── sddm/
 │       ├── 10-swaywm.conf    # /etc/sddm.conf.d drop-in
