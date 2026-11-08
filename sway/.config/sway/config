@@ -84,10 +84,11 @@ bindswitch --reload --locked lid:on  exec ~/.config/sway/scripts/lid-handler.sh 
 bindswitch --reload --locked lid:off exec ~/.config/sway/scripts/lid-handler.sh open
 
 # ── Input ───────────────────────────────────────────────────
-# Faster key repeat; Caps Lock acts as Escape
+# Key repeat: starts after 400 ms held (a normal press never triggers it),
+# then 30 chars/s. Sway's default is 600 / 25. Caps Lock acts as Escape.
 input "type:keyboard" {
-    repeat_delay 250
-    repeat_rate 40
+    repeat_delay 400
+    repeat_rate 30
     xkb_options caps:escape
 }
 
