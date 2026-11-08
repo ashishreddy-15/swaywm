@@ -41,6 +41,8 @@ PACKAGES=(
     grim slurp grimshot wf-recorder cliphist wl-clipboard libnotify
     # brightness, night light, power
     brightnessctl ddcutil wlsunset tuned-ppd playerctl
+    # themes to pick from in the appearance menu ($mod+Shift+a)
+    adw-gtk3-theme papirus-icon-theme breeze-cursor-theme
     # apps
     mpv yt-dlp loupe zathura zathura-pdf-mupdf
     # rofi tools
