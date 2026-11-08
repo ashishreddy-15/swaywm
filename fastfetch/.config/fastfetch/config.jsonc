@@ -1,0 +1,44 @@
+// fastfetch: same look as waybar/rofi. No logo; labelled hairline sections,
+// muted keys, plain values, one accent edge on the title. Palette: see colors.md.
+// Colours are 24-bit: dim #555555, border #333333, muted #888888, fg #e6e6e6, accent #7aa2c8.
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": { "type": "none" },
+  "display": {
+    "separator": " ",
+    "color": { "keys": "38;2;136;136;136", "output": "38;2;230;230;230" },
+    "key": { "width": 14 },
+    "percent": {
+      "type": 1,
+      "green": 70, "yellow": 90,
+      "color": { "green": "38;2;230;230;230", "yellow": "38;2;224;160;48", "red": "38;2;224;85;85" }
+    },
+    "size": { "binaryPrefix": "jedec", "maxPrefix": "GB" }
+  },
+  "modules": [
+    "break",
+    { "type": "custom", "format": "\u001b[38;2;122;162;200m▍\u001b[0m \u001b[1;38;2;230;230;230m{$USER}\u001b[0;38;2;85;85;85m@\u001b[38;2;230;230;230m{$HOSTNAME}\u001b[0m" },
+    "break",
+    { "type": "custom", "format": "\u001b[38;2;51;51;51m──\u001b[38;2;85;85;85m system \u001b[38;2;51;51;51m───────────────────────────────────\u001b[0m" },
+    { "type": "os",       "key": "  os",        "format": "{pretty-name}" },
+    {
+      "type": "command",
+      "key": "  installed",
+      "text": "t=$(rpm -q --qf '%{INSTALLTIME}' filesystem); d=$(( ($(date +%s) - t) / 86400 )); printf '%s \\033[38;2;85;85;85m(%s day%s)\\033[0m' \"$(date -d @$t '+%d %b %Y')\" \"$d\" \"$([ $d = 1 ] || echo s)\""
+    },
+    { "type": "kernel",   "key": "  kernel",    "format": "{release}" },
+    { "type": "uptime",   "key": "  uptime" },
+    { "type": "packages", "key": "  packages",  "format": "{rpm} rpm" },
+    { "type": "wm",       "key": "  wm",        "format": "{pretty-name} {version}" },
+    { "type": "shell",    "key": "  shell",     "format": "{pretty-name} {version}" },
+    { "type": "custom", "format": "\u001b[38;2;51;51;51m──\u001b[38;2;85;85;85m hardware \u001b[38;2;51;51;51m─────────────────────────────────\u001b[0m" },
+    { "type": "host",     "key": "  host",      "format": "{family}" },
+    { "type": "cpu",      "key": "  cpu",       "format": "{name} \u001b[38;2;85;85;85m({cores-physical}c/{cores-logical}t)" },
+    { "type": "gpu",      "key": "  gpu",       "format": "{name}" },
+    { "type": "memory",   "key": "  memory",    "format": "{used} / {total} \u001b[38;2;85;85;85m({percentage}\u001b[38;2;85;85;85m)" },
+    { "type": "disk",     "key": "  disk",      "folders": "/", "format": "{size-used} / {size-total} \u001b[38;2;85;85;85m({filesystem})" },
+    { "type": "display",  "key": "  display",   "format": "{width}x{height} @ {refresh-rate}Hz \u001b[38;2;85;85;85m({inch}\")" },
+    { "type": "battery",  "key": "  battery",   "format": "{capacity} \u001b[38;2;85;85;85m({status})" },
+    "break"
+  ]
+}

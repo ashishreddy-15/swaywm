@@ -33,7 +33,7 @@ Each directory is a Stow package, linked into `~` (`.stowrc` sets the options).
 | `foot` | Terminal |
 | `swaylock` | Screen locker |
 | `bash`, `starship` | Shell and prompt |
-| `nvim`, `btop`, `mpv`, `zathura` | Editor, monitor, video, PDF |
+| `nvim`, `btop`, `fastfetch`, `mpv`, `zathura` | Editor, monitor, system info, video, PDF |
 | `fontconfig`, `xdg-desktop-portal-wlr` | Fonts, screen sharing |
 
 ```bash

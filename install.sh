@@ -46,7 +46,7 @@ PACKAGES=(
     # rofi tools
     qalculate rofimoji wtype
     # shell & cli
-    neovim tmux fzf zoxide eza bat ripgrep fd-find jq btop
+    neovim tmux fzf zoxide eza bat ripgrep fd-find jq btop fastfetch
     # bootstrap itself
     stow git-core curl unzip
 )
