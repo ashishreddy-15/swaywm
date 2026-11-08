@@ -47,12 +47,12 @@ output * bg ~/.config/sway/wallpaper.jpg fill #13160f
 # The split indicator (where the next window opens) is fg, so it is
 # distinct from the accent focus border.
 #                       border   background text     indicator child_border
-client.focused          #7aa2c8  #111111    #e6e6e6  #e6e6e6   #7aa2c8
-client.focused_inactive #333333  #111111    #888888  #333333   #333333
-client.unfocused        #333333  #000000    #888888  #333333   #333333
-client.urgent           #e05555  #111111    #e6e6e6  #e05555   #e05555
-client.placeholder      #333333  #000000    #888888  #333333   #333333
-client.background       #000000
+client.focused          #6fa3b8  #161a14    #e6e8e1  #e6e8e1   #6fa3b8
+client.focused_inactive #2e342a  #161a14    #8c9384  #2e342a   #2e342a
+client.unfocused        #2e342a  #0f110d    #8c9384  #2e342a   #2e342a
+client.urgent           #e05555  #161a14    #e6e8e1  #e05555   #e05555
+client.placeholder      #2e342a  #0f110d    #8c9384  #2e342a   #2e342a
+client.background       #0f110d
 
 # ── Window look: flat, no titlebars, small gaps ─────────────
 default_border pixel 2

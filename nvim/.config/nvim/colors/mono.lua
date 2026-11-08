@@ -6,9 +6,9 @@ vim.o.background = "dark"
 vim.g.colors_name = "mono"
 
 local c = {
-  bg = "#000000", surface = "#111111", raised = "#222222", border = "#333333",
-  dim = "#555555", muted = "#888888", fg = "#e6e6e6",
-  accent = "#7aa2c8", red = "#e05555", amber = "#e0a030",
+  bg = "#0f110d", surface = "#161a14", raised = "#222820", border = "#2e342a",
+  dim = "#5a6152", muted = "#8c9384", fg = "#e6e8e1",
+  accent = "#6fa3b8", red = "#e05555", amber = "#db892d",
 }
 local function hl(g, o) vim.api.nvim_set_hl(0, g, o) end
 
