@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Battery click menu (see "battery" in modules.jsonc). Item ids match
+     the keys of menu-actions. Waybar loads this once, so it cannot tick the
+     current choice; the island shows it instead (no word = balanced). -->
+<interface>
+  <object class="GtkMenu" id="menu">
+    <child>
+      <object class="GtkMenuItem" id="header-profile">
+        <property name="label">Power profile</property>
+        <property name="sensitive">false</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="saver">
+        <property name="label">Power saver</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="balanced">
+        <property name="label">Balanced</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="performance">
+        <property name="label">Performance</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="sep"/>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="awake">
+        <property name="label">Keep awake on / off</property>
+      </object>
+    </child>
+  </object>
+</interface>

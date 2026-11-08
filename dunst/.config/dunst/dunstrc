@@ -11,14 +11,16 @@
     monitor = 0
 
     ### Geometry ###
-    # Dynamic width between 300 and 420px
-    width = (300, 420)
+    # Fixed width, centred over the island (narrower than it, so a one-line
+    # message doesn't become a wide slab)
+    width = 480
     # Dynamic height up to 300px
     height = (0, 300)
-    # Notification placement: top-right corner
-    origin = top-right
-    # Offset from screen edges (horizontal, vertical)
-    offset = (20, 20)
+    # Stack upward from just above the island bar (bottom-centre). dunst
+    # already starts above waybar's reserved row, so this is only the gap.
+    # Newest sits nearest the island.
+    origin = bottom-center
+    offset = (0, 6)
     # Per-display scaling (0 = auto-detect)
     scale = 0
     # Maximum number of visible notifications
@@ -28,21 +30,20 @@
 
     ### Spacing & Borders ###
     # Vertical padding inside notification
-    padding = 10
+    padding = 6
     # Horizontal padding inside notification
     horizontal_padding = 12
     # Spacing between icon and text
-    text_icon_padding = 10
+    text_icon_padding = 8
     # Border width around notifications
-    frame_width = 2
-    # Default border frame color (border grey; accent is for focus only)
-    frame_color = "#333333"
+    frame_width = 1
+    # Default border frame color (border; accent is for focus only)
+    frame_color = "#2e342a"
     # Gap between notifications; each one is drawn as its own box,
     # so no separator settings are needed
     gap_size = 6
-    # Slightly rounded corners
-    corner_radius = 4
-    corners = all
+    # Square, like the island and windows
+    corner_radius = 0
 
     ### Progress Bar ###
     progress_bar = true
@@ -50,12 +51,12 @@
     progress_bar_frame_width = 1
     progress_bar_min_width = 150
     progress_bar_max_width = 300
-    progress_bar_corner_radius = 3
+    progress_bar_corner_radius = 0
 
     ### Typography ###
     # Font matches the system monospace font
-    font = Maple Mono NF 11.5
-    line_height = 2
+    font = Maple Mono NF 10
+    line_height = 0
     markup = full
     # %s = summary (title), %b = body
     format = "<b>%s</b>\n%b"
@@ -72,9 +73,9 @@
     enable_recursive_icon_lookup = true
     icon_theme = "Adwaita, hicolor"
     icon_position = left
-    min_icon_size = 24
-    max_icon_size = 64
-    icon_corner_radius = 2
+    min_icon_size = 16
+    max_icon_size = 20
+    icon_corner_radius = 0
 
     ### History ###
     sticky_history = yes
@@ -93,27 +94,27 @@
 
 [urgency_low]
     # Palette: see colors.md
-    background = "#111111"
-    foreground = "#888888"
-    frame_color = "#333333"
-    highlight = "#7aa2c8"
+    background = "#161a14"
+    foreground = "#8c9384"
+    frame_color = "#2e342a"
+    highlight = "#6fa3b8"
     timeout = 5
     default_icon = dialog-information
 
 [urgency_normal]
     # Palette: see colors.md
-    background = "#111111"
-    foreground = "#e6e6e6"
+    background = "#161a14"
+    foreground = "#e6e8e1"
     # Plain border; accent is reserved for focus (see colors.md)
-    frame_color = "#333333"
-    highlight = "#7aa2c8"
+    frame_color = "#2e342a"
+    highlight = "#6fa3b8"
     timeout = 8
     default_icon = dialog-information
 
 [urgency_critical]
     # Red frame for critical
-    background = "#111111"
-    foreground = "#e6e6e6"
+    background = "#161a14"
+    foreground = "#e6e8e1"
     frame_color = "#e05555"
     highlight = "#e05555"
     timeout = 0
@@ -125,19 +126,19 @@
 
 [osd_brightness]
     appname = brightness
-    format = "<b>%s</b>  <span foreground='#888888'>%b</span>"
+    format = "<b>%s</b>  <span foreground='#8c9384'>%b</span>"
     icon_position = off
     history_ignore = yes
 
 [osd_dnd]
     appname = dnd
-    format = "<b>%s</b>  <span foreground='#888888'>%b</span>"
+    format = "<b>%s</b>  <span foreground='#8c9384'>%b</span>"
     icon_position = off
     history_ignore = yes
 
 [osd_nightlight]
     appname = nightlight
-    format = "<b>%s</b>  <span foreground='#888888'>%b</span>"
+    format = "<b>%s</b>  <span foreground='#8c9384'>%b</span>"
     icon_position = off
     history_ignore = yes
 
@@ -152,6 +153,6 @@
 
 [osd_calc]
     appname = calc
-    format = "<b>%s</b>  <span foreground='#888888'>%b</span>"
+    format = "<b>%s</b>  <span foreground='#8c9384'>%b</span>"
     icon_position = off
     history_ignore = yes

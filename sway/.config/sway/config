@@ -38,8 +38,10 @@ font pango:Maple Mono NF 10
 output $laptop  resolution 1920x1200        position 0,240 subpixel rgb
 output $samsung resolution 2560x1440@100Hz  position 1920,0 subpixel rgb
 
-# No wallpaper — solid black background on all outputs
-output * bg #000000 solid_color
+# Wallpaper: horizon at dusk (Elliott Engelmann, Unsplash). The palette in
+# colors.md is taken from it. The fallback colour is the image's ground,
+# shown while the image loads.
+output * bg ~/.config/sway/wallpaper.jpg fill #13160f
 
 # ── Window colors (palette: see colors.md) ──────────────────
 # The split indicator (where the next window opens) is fg, so it is

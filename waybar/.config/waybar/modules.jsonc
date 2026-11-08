@@ -1,11 +1,11 @@
 // -*- mode: jsonc -*-
 // Module definitions shared by both bars (included from config.jsonc).
+//
+// Text convention: a quiet label and a bright value. Labels are dimmed with
+// alpha instead of a hex colour so the palette lives in style.css only.
+// States that are normal (balanced profile, keep-awake off) show nothing;
+// a word appears only when something differs from normal.
 {
-    "custom/separator#1": { "format": "|", "tooltip": false },
-    "custom/separator#2": { "format": "|", "tooltip": false },
-    "custom/separator#3": { "format": "|", "tooltip": false },
-    "custom/separator#4": { "format": "|", "tooltip": false },
-
     "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": false,
@@ -13,69 +13,88 @@
     },
 
     "sway/mode": {
-        "format": "<span style=\"italic\">[{}]</span>"
+        "format": "{}"
     },
 
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "[AWAKE]",
-            "deactivated": "IDLE"
-        },
-        "tooltip": true,
-        "tooltip-format-activated": "Idle inhibitor: Active",
-        "tooltip-format-deactivated": "Idle inhibitor: Inactive"
-    },
-
-    "pulseaudio": {
-        "scroll-step": 5,
-        "format": "VOL {volume}%",
-        "format-bluetooth": "VOL {volume}% [BT]",
-        "format-bluetooth-muted": "VOL [MUTED]",
-        "format-muted": "VOL [MUTED]",
-        "on-click": "pavucontrol",
-        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-        "tooltip-format": "{desc} ({volume}%)"
-    },
-
-    "battery": {
-        "states": {
-            "warning": 25,
-            "critical": 15
-        },
-        "format": "BAT {capacity}%",
-        "format-charging": "BAT {capacity}% [CHR]",
-        // [AC] = plugged in but holding at the charge limit (the usual state);
-        // dimmed so [CHR] (actually charging) stands out. Alpha instead of a
-        // hex keeps the palette in style.css only.
-        "format-plugged": "BAT {capacity}% <span alpha='60%'>[AC]</span>",
-        "format-alt": "BAT {time}",
-        "tooltip-format": "{timeTo}, {capacity}%\nPower draw: {power:0.2f}W"
-    },
-
-    // Click cycles power-saver → balanced → performance (built into the module)
-    "power-profiles-daemon": {
-        "format": "{icon}",
-        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-        "tooltip": true,
-        "format-icons": {
-            "default": "[DEF]",
-            "performance": "[PERF]",
-            "balanced": "[BAL]",
-            "power-saver": "[SAV]"
-        }
-    },
-
-    // Minute resolution; click toggles to the long date format
     "clock": {
         "interval": 60,
-        "format": "{:%Y-%m-%d %H:%M}",
-        "format-alt": "{:%a %b %d  %H:%M}",
+        "format": "<span alpha='62%'>{0:%a %d}</span>  {0:%H:%M}",
         "tooltip-format": "<tt><small>{calendar}</small></tt>",
         "calendar": {
             "mode": "month",
             "weeks-pos": "right",
             "on-scroll": 1
         }
+    },
+
+    // Keep awake: replaces waybar's idle_inhibitor so the battery menu can
+    // switch it. Empty (hidden) while off; scripts/idle.sh signals RTMIN+9.
+    "custom/awake": {
+        "exec": "~/.config/sway/scripts/idle.sh status",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 9,
+        "on-click": "~/.config/sway/scripts/idle.sh toggle"
+    },
+
+    // Balanced is the normal state, so it shows nothing
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "format-icons": {
+            "default": "",
+            "balanced": "",
+            "power-saver": "SAVER",
+            "performance": "PERF"
+        },
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}"
+    },
+
+    "pulseaudio": {
+        "scroll-step": 5,
+        "format": "<span alpha='62%'>VOL</span> {volume}",
+        "format-bluetooth": "<span alpha='62%'>BT</span> {volume}",
+        "format-muted": "<span alpha='62%'>VOL</span> MUTED",
+        "format-bluetooth-muted": "<span alpha='62%'>BT</span> MUTED",
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "tooltip-format": "{desc} ({volume}%)"
+    },
+
+    // The prefix carries the power state: BAT on battery, AC plugged in but
+    // holding at the charge limit, CHR actually charging.
+    // Click opens power-menu.xml (power profile + keep awake).
+    "battery": {
+        "states": {
+            "warning": 25,
+            "critical": 15
+        },
+        "format": "<span alpha='62%'>BAT</span> {capacity}",
+        "format-plugged": "<span alpha='62%'>AC</span> {capacity}",
+        "format-charging": "<span alpha='62%'>CHR</span> {capacity}",
+        "tooltip-format": "{timeTo}, {capacity}%\nPower draw: {power:0.2f}W\nClick: power profile and keep awake",
+        "menu": "on-click",
+        "menu-file": "~/.config/waybar/power-menu.xml",
+        "menu-actions": {
+            "saver":       "busctl set-property net.hadess.PowerProfiles /net/hadess/PowerProfiles net.hadess.PowerProfiles ActiveProfile s power-saver",
+            "balanced":    "busctl set-property net.hadess.PowerProfiles /net/hadess/PowerProfiles net.hadess.PowerProfiles ActiveProfile s balanced",
+            "performance": "busctl set-property net.hadess.PowerProfiles /net/hadess/PowerProfiles net.hadess.PowerProfiles ActiveProfile s performance",
+            "awake":       "sh -c \"$HOME/.config/sway/scripts/idle.sh toggle\""
+        }
+    },
+
+    // Tray behind a quiet ··· handle; hovering slides the icons out
+    "group/tray": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 250,
+            "children-class": "tray-hidden",
+            "transition-left-to-right": false
+        },
+        "modules": ["custom/tray-handle", "tray"]
+    },
+
+    "custom/tray-handle": {
+        "format": "···",
+        "tooltip": false
     }
 }
