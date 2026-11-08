@@ -1,0 +1,11 @@
+[SddmGreeterTheme]
+Name=mono
+Description=Monochrome login screen matching the sway setup (see colors.md)
+Type=sddm-theme
+Version=1.0
+MainScript=Main.qml
+ConfigFile=theme.conf
+Theme-Id=mono
+Theme-API=2.0
+# SDDM 0.21 picks the Qt5 greeter unless this says 6
+QtVersion=6

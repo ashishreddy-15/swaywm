@@ -8,19 +8,21 @@
 #   --dry-run         print what would happen, change nothing
 #   --no-packages     skip dnf (e.g. on an already-set-up machine)
 #   --with-snapshots  also run setup/snapshots.sh (snapper + dnf hook)
+#   --with-sddm       also run setup/sddm.sh (login screen theme)
 #
 # Safe to re-run: every step checks before it acts. Existing dotfiles that
 # would block stow are moved to ~/.dotfiles-backup-<date>/, never deleted.
 set -euo pipefail
 
 REPO="$(cd "$(dirname "$0")" && pwd)"
-DRY=0 PKGS=1 SNAPS=0
+DRY=0 PKGS=1 SNAPS=0 SDDM=0
 for a in "$@"; do
     case "$a" in
         --dry-run)        DRY=1 ;;
         --no-packages)    PKGS=0 ;;
         --with-snapshots) SNAPS=1 ;;
-        -h|--help)        sed -n '2,13p' "$0"; exit 0 ;;
+        --with-sddm)      SDDM=1 ;;
+        -h|--help)        sed -n '2,14p' "$0"; exit 0 ;;
         *) echo "unknown option: $a" >&2; exit 1 ;;
     esac
 done
@@ -135,6 +137,13 @@ if (( SNAPS )); then
     run "$REPO/setup/snapshots.sh"
 fi
 
+# ── 9. Login screen (optional, needs sudo) ──────────────────
+if (( SDDM )); then
+    step "SDDM login screen"
+    if (( DRY )); then "$REPO/setup/sddm.sh" --dry-run; else "$REPO/setup/sddm.sh"; fi
+fi
+
 step "Done"
 echo "    Log out and back in (or reboot) to start sway with everything in place."
 (( SNAPS )) || echo "    Snapshots not set up; run ./install.sh --with-snapshots or ./setup/snapshots.sh"
+(( SDDM ))  || echo "    Login screen not themed; run ./install.sh --with-sddm or ./setup/sddm.sh"

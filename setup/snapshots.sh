@@ -7,6 +7,7 @@
 #
 # Snapshots live on the same disk: they undo mistakes and bad updates,
 # they are NOT a backup against disk failure or a lost laptop.
+# For a copy on another device see setup/backup-usb.sh.
 #
 # Usage: ./setup/snapshots.sh      (asks for sudo)
 set -euo pipefail
