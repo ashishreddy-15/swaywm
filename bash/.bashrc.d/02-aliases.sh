@@ -42,12 +42,6 @@ if command -v procs &>/dev/null; then
     alias ps='procs'
 fi
 
-if command -v btm &>/dev/null; then
-    alias htop='btm'
-elif command -v btop &>/dev/null; then
-    alias htop='btop'
-fi
-
 # --- Navigation ---
 alias ..='cd ..'
 alias ...='cd ../..'
